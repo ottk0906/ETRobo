@@ -2,6 +2,7 @@ package body;
 
 import body.control.Control;
 import body.control.ControlArm;
+import body.control.ControlColor;
 import body.control.ControlWheel;
 import body.measure.Measure;
 import body.measure.MeasureArm;
@@ -57,7 +58,8 @@ public final class Body {
 		// 制御の初期化
 		ControlWheel controlWheel = new ControlWheel(leftMotor, rightMotor);
 		ControlArm controlArm = new ControlArm(armMotor);
-		control = new Control(controlWheel, controlArm);
+		ControlColor controlColor = new ControlColor();
+		control = new Control(controlWheel, controlArm, controlColor);
 		// 自己位置推定クラス
 		selfPos = new SelfPosition();
 	    //ストップウォッチクラスを生成する

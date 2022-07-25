@@ -1,6 +1,8 @@
 package body.control;
 
 import body.Body;
+import game.Game;
+import game.state.StateRun;
 
 /**
  * 制御クラス
@@ -8,36 +10,37 @@ import body.Body;
  *
  */
 public class Control {
-	/***/
-	//Body body;
-
 	/** 車輪制御 */
 	ControlWheel controlWheel;
 	/** アーム制御 */
 	ControlArm controlArm;
-	/** 目標速度(mm/秒) */
+	/** カラー制御 */
+	ControlColor controlColor;
+
+    /** 競技 */
+    private Game game;
+    /** 目標速度(mm/秒) */
 	private float forward;
 	/** 目標回転角速度(度/秒) */
 	private float turn;
 	/** 目標角度 */
 	private float targetDegrees;
+	/** アーム回転角速度 */
+	private float armRotationSpeed;
+	/** アームモード */
+	private int armMode;
+
 
 	/**
 	 * コンストラクタ
 	 * @param controlWheel 車輪制御
+	 * @param controlArm 	アーム制御
+	 * @param controlColor カラー制御
 	 */
-	public Control(ControlWheel controlWheel) {
-		this.controlWheel = controlWheel;
-	}
-
-	/**
-	 * コンストラクタ
-	 * @param controlWheel 車輪制御
-	 * @param controlArm アーム制御
-	 */
-	public Control(ControlWheel controlWheel, ControlArm controlArm) {
+	public Control(ControlWheel controlWheel, ControlArm controlArm, ControlColor controlColor) {
 		this.controlWheel = controlWheel;
 		this.controlArm = controlArm;
+		this.controlColor = controlColor;
 	}
 
 	/**
@@ -53,9 +56,24 @@ public class Control {
 
 		controlWheel.setLeftRotationSpeed(leftRotationSpeed);
 		controlWheel.setRightRotationSpeed(rightRotationSpeed);
+		controlArm.setArmRotationSpeed(this.armRotationSpeed);
 		controlArm.setDegrees(this.targetDegrees);
+		controlArm.setArmMode(this.armMode);
+
 		controlWheel.run();
-		controlArm.run();
+		//走行中の場合のみ、
+        if (game.getStatus() instanceof StateRun) {
+			controlArm.run();
+			controlColor.run();
+        }
+	}
+
+    /**
+     * gameクラスオブジェクトを設定する
+     * @param	game	gameクラスのインスタンス
+     */
+	public void setGameInstance(Game game) {
+		this.game = game;
 	}
 
 	/**
@@ -81,4 +99,21 @@ public class Control {
 	public void setDegrees(float targetDegrees) {
 		this.targetDegrees = targetDegrees;
 	}
+
+	/**
+	 * アーム回転角速度を設定する
+	 * @param armRotationSpeed アーム回転角速度
+	 */
+	public void setArmRotationSpeed(float armRotationSpeed) {
+		this.armRotationSpeed = armRotationSpeed;
+	}
+
+	/**
+	 * アームのモードを設定する。0ならPIDでの制御、1なら単純な速度での制御
+	 * @param armMode アームのモード
+	 */
+	public void setArmMode(int armMode) {
+		this.armMode = armMode;
+	}
+
 }

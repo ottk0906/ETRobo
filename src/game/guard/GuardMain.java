@@ -120,6 +120,12 @@ public class GuardMain extends Guard {
 			case 2:
 				tmpGuard = new GuardTimer(gdValue.get(0).intValue());
 				break;
+			case 3:
+				tmpGuard = new GuardColorHSV(gdValue.get(0).intValue(),gdValue.get(1).intValue());
+				break;
+			case 4:
+				tmpGuard = new GuardColorHSL(gdValue.get(0).intValue(),gdValue.get(1).intValue());
+				break;
 		}
 
 		return tmpGuard;

@@ -2,10 +2,13 @@ package game;
 
 import body.control.Control;
 import body.measure.Measure;
-import game.activity.ActivityAcquisitionColor;
+import game.activity.ActivityArm;
+import game.activity.ActivityArmThrow;
 import game.activity.ActivityCalibrationBlack;
 import game.activity.ActivityCalibrationWhite;
 import game.activity.ActivityRun;
+import game.guard.GuardArmThrow;
+import game.guard.GuardTimer;
 import game.guard.GuardTouch;
 import game.state.State;
 import game.state.StateCalibrationBlack;
@@ -40,7 +43,23 @@ public class Game {
 		StateCalibrationWhite.getInstance().add(new GuardTouch(), new ActivityCalibrationWhite());
 		StateCalibrationBlack.getInstance().add(new GuardTouch(), new ActivityCalibrationBlack());
 		StateWaitStart.getInstance().add(new GuardTouch(), new ActivityRun(0, 0));
+		//StateRun.getInstance().add(new GuardTimer(2000), new ActivityRun(300, 0));
+		StateRun.getInstance().add(new GuardTimer(5000), new ActivityRun(200, 0));
+		StateRun.getInstance().add(new GuardArmThrow(30.0f), new ActivityArmThrow(50,300));
+		StateRun.getInstance().add(new GuardTimer(3000), new ActivityRun(200, 0));
+		StateRun.getInstance().add(new GuardTimer(0), new ActivityArm(0));
+		StateRun.getInstance().add(new GuardTimer(3000), new ActivityRun(100, 0));
+
+		//StateRun.getInstance().add(new GuardColorHSV(2,3), new ActivityRun(100, 0));
+		//StateRun.getInstance().add(new GuardTouch(), new ActivityRun(0, 0));
+
+		/*
 		StateRun.getInstance().add(new GuardTouch(), new ActivityAcquisitionColor());
+		 */
+		//StateRun.getInstance().add(new GuardDegrees(30.0f, 1.0f), new ActivityArm(30.0f));
+		//StateRun.getInstance().add(new GuardTouch(), new ActivityRun(0, 0));
+		//StateRun.getInstance().add(new GuardDegrees(0.0f, 1.0f), new ActivityArm(0.0f));
+		//StateRun.getInstance().add(new GuardTouch(), new ActivityRun(0, 0));
 
 		/*
 		//---> Modify 2022/07/06 Harada
@@ -49,6 +68,7 @@ public class Game {
 		//<--- Modify 2022/07/06 Harada
 
 		//---> Modify 2022/07/06 Harada
+		 *
 		StateRun.getInstance().add(new GuardTouch(), new ActivityRunPID(200, 0.0f, 1500f, 0.01f, 0.01f));
 		StateRun.getInstance().add(new GuardTouch(), new ActivityRun(0, 0));
 		//<--- Modify 2022/07/06 Harada
@@ -83,7 +103,6 @@ public class Game {
 */
 
 /*
-
 		//---> Add 2022/07/12 T.Okado AND条件のお試し用
 		ScenarioMake Scenario = new ScenarioMake();
 		Scenario.makeScenarioList(0);

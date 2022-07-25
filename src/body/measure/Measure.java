@@ -19,13 +19,23 @@ public class Measure {
 	 * カラー定数
 	 */
 	public enum Color{
-		White,
-		Black,
-		Red,
-		Yellow,
-		Green,
-		Blue,
-		Other;
+		White(0),
+		Black(1),
+		Red(2),
+		Yellow(3),
+		Green(4),
+		Blue(5),
+		Other(6);
+
+		private final int color;
+
+		Color(int color) {
+			this.color = color;
+		}
+
+		public int getInt() {
+			return color;
+		}
 	}
 
 	/** タッチ計測 */

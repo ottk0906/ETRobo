@@ -53,6 +53,9 @@ public class TaskManager {
         game = new Game();
         log = new Log(game);
 
+        //制御クラスのインスタンスにgemeクラスのインスタンスを設定する
+        Body.control.setGameInstance(game);
+
 		// 自己位置推定インスタンスにgemeクラスのインスタンスを設定する
         Body.selfPos.setGameInstance(game);
 		// 自己位置推定ログのインスタンス生成

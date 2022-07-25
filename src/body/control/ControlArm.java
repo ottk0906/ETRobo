@@ -15,6 +15,8 @@ public class ControlArm {
 	/** アーム回転角速度 */
 	private float armRotationSpeed;
 
+	private int armMode;
+
 	/**処理周期*/
 	private float DELTA_T = 0.010f;
 	/**偏差（前回の偏差、今回の偏差）*/
@@ -41,6 +43,9 @@ public class ControlArm {
 	 * 制御する
 	 */
 	public void run() {
+		if (armMode == 0) {
+			calcArmRotationSpeed();
+		}
 		armMotor.setSpeed(armRotationSpeed);
 		if (armRotationSpeed >= 0) {
 			armMotor.forward();
@@ -50,12 +55,27 @@ public class ControlArm {
 	}
 
 	/**
-	 * 目標角度を設定し、calcArmRotationSpeed()を実行する
+	 * 目標角度を設定する。
 	 * @param targetDegrees 目標角度
 	 */
 	public void setDegrees(float targetDegrees) {
 		this.targetDegrees = targetDegrees;
-		calcArmRotationSpeed();
+	}
+
+	/**
+	 * アーム回転角速度を設定する
+	 * @param armRotationSpeed アーム回転角速度
+	 */
+	public void setArmRotationSpeed(float armRotationSpeed) {
+		this.armRotationSpeed = armRotationSpeed;
+	}
+
+	/**
+	 * アームのモードを設定する。0ならPIDでの制御、1なら単純な速度での制御
+	 * @param armMode アームのモード
+	 */
+	public void setArmMode(int armMode) {
+		this.armMode = armMode;
 	}
 
 	/**
@@ -64,7 +84,7 @@ public class ControlArm {
 	public void calcArmRotationSpeed() {
 		float p, i, d;
 		// 現在の角度を取得する
-		float tmpDegrees =armMotor.getPosition();
+		float tmpDegrees = armMotor.getPosition();
 
 		//操作量を計算する
 		kago[0] = kago[1];
@@ -85,4 +105,5 @@ public class ControlArm {
 	public float getArmRotationSpeed() {
 		return armRotationSpeed;
 	}
+
 }

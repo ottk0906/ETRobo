@@ -99,6 +99,9 @@ public class ScenarioMake {
 			ScenarioList.add(new ScenarioData(sceneNo, stateNo, actNo, actValue, gdNo, gdLogicalOperator, gdValue));
 
 			//走行
+
+			/*
+
 			sceneNo = 3;
 			stateNo = 3;
 			actNo = 2;
@@ -153,10 +156,42 @@ public class ScenarioMake {
 
 			ScenarioList.add(new ScenarioData(sceneNo, stateNo, actNo, actValue, gdNo, gdLogicalOperator, gdValue));
 
+			*/
+
+			sceneNo = 3;
+			stateNo = 3;
+			actNo = 2;
+			actValue = new ArrayList<Double>();
+			actValue.add(100.0);
+			actValue.add(0.0);
+
+			//色検知(HSV)で停止
+			gdNo = 3;
+			gdLogicalOperator = 0;
+			gdValue = new ArrayList<Double>();
+			gdValue.add(2.0);	//赤色
+			gdValue.add(3.0);	//3回連続
+
+			ScenarioList.add(new ScenarioData(sceneNo, stateNo, actNo, actValue, gdNo, gdLogicalOperator, gdValue));
+
+			//走行体停止
+			sceneNo = 4;
+			stateNo = 3;
+			actNo = 2;
+			actValue = new ArrayList<Double>();
+			actValue.add(0.0);
+			actValue.add(0.0);
+
+			//ボタン押下で停止
+			gdNo = 0;
+			gdLogicalOperator = 0;
+			gdValue = new ArrayList<Double>();
+
+			ScenarioList.add(new ScenarioData(sceneNo, stateNo, actNo, actValue, gdNo, gdLogicalOperator, gdValue));
 
 
 			//終了
-			sceneNo = 4;
+			sceneNo = 5;
 			stateNo = 4;
 			actNo = 2;
 			actValue = new ArrayList<Double>();

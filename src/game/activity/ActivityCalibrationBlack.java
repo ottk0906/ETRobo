@@ -30,7 +30,10 @@ public class ActivityCalibrationBlack extends Activity {
 	 */
 	@Override
 	public void exitAction() {
+		//黒明度と目標明度を設定する
 		Body.measure.setBlack(Body.measure.getValue());
 		Body.measure.setTarget((Body.measure.getWhite() + Body.measure.getBlack()) / 2.0f);
+		//色判定用の閾値を設定する
+		Body.measure.calcColorBorder();
 	}
 }
