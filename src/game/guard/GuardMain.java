@@ -1,9 +1,5 @@
 package game.guard;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,19 +36,22 @@ public class GuardMain extends Guard {
 		//クラス名を設定する
 		name = "GuardMain";
 
-		//1つ目の条件を状態遷移条件リストに設定する
+		//1つ目の条件を状態遷移条件リストに追加する
 		guardList.add(getGuard(scenarioList.get(0).getGdNo(),scenarioList.get(0).getGdValue()));
 
 		for(int iLoop = 1; iLoop < scenarioList.size(); iLoop++){
 
 			if(iLoop == 1) {
+				//初回の論理演算子の条件を記憶する
 				tmplogicalOpe = scenarioList.get(iLoop).getGdLogicalOperator();
-				//2つ目の条件を状態遷移条件リストに設定する
+				//2つ目の条件を状態遷移条件リストに追加する
 				guardList.add(getGuard(scenarioList.get(iLoop).getGdNo(),scenarioList.get(iLoop).getGdValue()));
 			} else {
+				//論理演算子の条件が同じ場合
 				if(tmplogicalOpe == scenarioList.get(iLoop).getGdLogicalOperator()) {
-					//2つ目の条件を状態遷移条件リストに設定する
+					//3つ目以降の条件を状態遷移条件リストに追加する
 					guardList.add(getGuard(scenarioList.get(iLoop).getGdNo(),scenarioList.get(iLoop).getGdValue()));
+				//論理演算子の条件が異なる場合
 				} else {
 					//And条件の場合
 					if(tmplogicalOpe == LOGICAL_OPERATOR_AND) {
@@ -62,10 +61,11 @@ public class GuardMain extends Guard {
 						guard = new GuardOr(guardList);
 					}
 
-
+/*
 					for(Guard gd:guardList) {
 						write(1,gd.name, tmplogicalOpe);
 					}
+*/
 
 					guardList = new ArrayList<Guard>();
 					tmplogicalOpe = scenarioList.get(iLoop).getGdLogicalOperator();
@@ -83,13 +83,13 @@ public class GuardMain extends Guard {
 		} else {
 			guard = new GuardOr(guardList);
 		}
-
+/*
 		for(Guard gd:guardList) {
 			write(2,gd.name, tmplogicalOpe);
 		}
 
 		write(3,guard.name, -1);
-
+*/
 	}
 
     /**
@@ -111,20 +111,37 @@ public class GuardMain extends Guard {
 		Guard tmpGuard = null;
 
 		switch(gdNo){
+			//スイッチ押下
 			case 0:
 				tmpGuard = new GuardTouch();
 				break;
+			//指定距離走行(mm)
 			case 1:
 				tmpGuard = new GuardDistance(gdValue.get(0).doubleValue());
 				break;
+			//指定角度回転(°)
 			case 2:
+				tmpGuard = new GuardTurn(gdValue.get(0).doubleValue());
+				break;
+			//指定時間経過(ms)
+			case 3:
 				tmpGuard = new GuardTimer(gdValue.get(0).intValue());
 				break;
-			case 3:
+			//指定色認識(HSVで判定)
+			case 4:
 				tmpGuard = new GuardColorHSV(gdValue.get(0).intValue(),gdValue.get(1).intValue());
 				break;
-			case 4:
+			//指定色認識(HSLで判定)
+			case 5:
 				tmpGuard = new GuardColorHSL(gdValue.get(0).intValue(),gdValue.get(1).intValue());
+				break;
+			//アーム固定角度指定
+			case 6:
+				tmpGuard = new GuardArmDegrees(gdValue.get(0).floatValue(),gdValue.get(1).floatValue());
+				break;
+			//アーム移動角度指定
+			case 7:
+				tmpGuard = new GuardArmThrow(gdValue.get(0).floatValue());
 				break;
 		}
 
@@ -132,6 +149,7 @@ public class GuardMain extends Guard {
 
 	}
 
+/*
     //---> Add 2022/07/13 T.Okado Debug用
 	public void write(int no, String name, int logicalOpe) {
         try {
@@ -152,5 +170,6 @@ public class GuardMain extends Guard {
         }
     }
     //<--- Add 2022/07/13 T.Okado
+*/
 
 }

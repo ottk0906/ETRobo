@@ -3,18 +3,18 @@ package game.guard;
 import body.Body;
 /**
  * 角度遷移条件
- * @author user206
+ * @author 駒井
  */
-public class GuardDegrees extends Guard {
+public class GuardArmDegrees extends Guard {
 
-	private float targetDegrees; //目標角度
-	private float targetDegreesMargin; //目標角度に対してのマージン
+	private float targetDegrees; 			//目標角度
+	private float targetDegreesMargin;	//目標角度に対してのマージン
 
 	/**
 	 * コンストラクタ
 	 * @param targetDegrees	目標角度
 	 */
-	public GuardDegrees(float targetDegrees, float targetDegreesMargin) {
+	public GuardArmDegrees(float targetDegrees, float targetDegreesMargin) {
 		//アームモータの目標角度を設定する
 		this.targetDegrees = targetDegrees;
 		//目標角度に対してのマージンを設定する

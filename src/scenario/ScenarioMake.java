@@ -1,16 +1,16 @@
 package scenario;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import fileIO.CsvRead;
 import game.activity.Activity;
+import game.activity.ActivityArm;
+import game.activity.ActivityArmThrow;
 import game.activity.ActivityCalibrationBlack;
 import game.activity.ActivityCalibrationWhite;
 import game.activity.ActivityRun;
+import game.activity.ActivityRunOnOff;
 import game.activity.ActivityRunPID;
 import game.guard.GuardMain;
 import game.state.State;
@@ -26,13 +26,15 @@ import game.state.StateWaitStart;
  */
 public class ScenarioMake {
 
-	List<ScenarioData> ScenarioList;
+	List<ScenarioData> scenarioList;
 
 	/**
 	 * コンストラクタ
 	 */
 	public ScenarioMake() {
-	    //---> Add 2022/07/13 T.Okado Debug用
+
+/*
+		//---> Add 2022/07/13 T.Okado Debug用
         try {
 	        //ログファイルが既に存在する場合は削除する
 	        File file = new File("ScenarioMake.csv");
@@ -41,20 +43,22 @@ public class ScenarioMake {
 	        e.printStackTrace();
 	    }
         //<--- Add 2022/07/13 T.Okado
+*/
 	}
 
 	/**
 	 * シナリオリストを作成する
-	 * @param mode	データ入力モード(0:csvファイル / 1:無線通信デバイス)
+	 * @param file
 	 */
-	public void makeScenarioList(int mode) {
+	public void makeScenarioList(String file) {
 		//シナリオリストを初期化する
-		ScenarioList = new ArrayList<ScenarioData>();
+		scenarioList = new ArrayList<ScenarioData>();
 
-		switch(mode) {
-		//CSVファイルを読み込んでシナリオデータを作成する
-		case 0:
+		//シナリオリストファイルを読み込む
+		CsvRead CsvRead = new CsvRead();
+		scenarioList = CsvRead.readScenarioFile(file);
 
+/*
 			int sceneNo;
 			int stateNo;
 			int actNo;
@@ -72,7 +76,15 @@ public class ScenarioMake {
 			gdLogicalOperator = 0;
 			gdValue = new ArrayList<Double>();
 
-			ScenarioList.add(new ScenarioData(sceneNo, stateNo, actNo, actValue, gdNo, gdLogicalOperator, gdValue));
+			ScenarioData snData = new ScenarioData();
+			snData.setSceneNo(sceneNo);
+			snData.setStateNo(stateNo);
+			snData.setActNo(actNo);
+			snData.setActValue(actValue);
+			snData.setGdNo(gdNo);
+			snData.setGdLogicalOperator(gdLogicalOperator);
+			snData.setGdValue(gdValue);
+			scenarioList.add(new ScenarioData());
 
 			//黒キャリブレーション
 			sceneNo = 1;
@@ -83,7 +95,15 @@ public class ScenarioMake {
 			gdLogicalOperator = 0;
 			gdValue = new ArrayList<Double>();
 
-			ScenarioList.add(new ScenarioData(sceneNo, stateNo, actNo, actValue, gdNo, gdLogicalOperator, gdValue));
+			snData = new ScenarioData();
+			snData.setSceneNo(sceneNo);
+			snData.setStateNo(stateNo);
+			snData.setActNo(actNo);
+			snData.setActValue(actValue);
+			snData.setGdNo(gdNo);
+			snData.setGdLogicalOperator(gdLogicalOperator);
+			snData.setGdValue(gdValue);
+			scenarioList.add(new ScenarioData());
 
 			//Wait
 			sceneNo = 2;
@@ -96,11 +116,18 @@ public class ScenarioMake {
 			gdLogicalOperator = 0;
 			gdValue = new ArrayList<Double>();
 
-			ScenarioList.add(new ScenarioData(sceneNo, stateNo, actNo, actValue, gdNo, gdLogicalOperator, gdValue));
+			snData = new ScenarioData();
+			snData.setSceneNo(sceneNo);
+			snData.setStateNo(stateNo);
+			snData.setActNo(actNo);
+			snData.setActValue(actValue);
+			snData.setGdNo(gdNo);
+			snData.setGdLogicalOperator(gdLogicalOperator);
+			snData.setGdValue(gdValue);
+			scenarioList.add(new ScenarioData());
 
 			//走行
 
-			/*
 
 			sceneNo = 3;
 			stateNo = 3;
@@ -114,7 +141,16 @@ public class ScenarioMake {
 			gdLogicalOperator = 0;
 			gdValue = new ArrayList<Double>();
 			gdValue.add(500.0);
-			ScenarioList.add(new ScenarioData(sceneNo, stateNo, actNo, actValue, gdNo, gdLogicalOperator, gdValue));
+
+			snData = new ScenarioData();
+			snData.setSceneNo(sceneNo);
+			snData.setStateNo(stateNo);
+			snData.setActNo(actNo);
+			snData.setActValue(actValue);
+			snData.setGdNo(gdNo);
+			snData.setGdLogicalOperator(gdLogicalOperator);
+			snData.setGdValue(gdValue);
+			scenarioList.add(new ScenarioData());
 
 			//1000mmで停止
 			gdNo = 1;
@@ -122,7 +158,15 @@ public class ScenarioMake {
 			gdValue = new ArrayList<Double>();
 			gdValue.add(1000.0);
 
-			ScenarioList.add(new ScenarioData(sceneNo, stateNo, actNo, actValue, gdNo, gdLogicalOperator, gdValue));
+			snData = new ScenarioData();
+			snData.setSceneNo(sceneNo);
+			snData.setStateNo(stateNo);
+			snData.setActNo(actNo);
+			snData.setActValue(actValue);
+			snData.setGdNo(gdNo);
+			snData.setGdLogicalOperator(gdLogicalOperator);
+			snData.setGdValue(gdValue);
+			scenarioList.add(new ScenarioData());
 
 			//2000msで停止
 			gdNo = 2;
@@ -130,7 +174,15 @@ public class ScenarioMake {
 			gdValue = new ArrayList<Double>();
 			gdValue.add(2000.0);
 
-			ScenarioList.add(new ScenarioData(sceneNo, stateNo, actNo, actValue, gdNo, gdLogicalOperator, gdValue));
+			snData = new ScenarioData();
+			snData.setSceneNo(sceneNo);
+			snData.setStateNo(stateNo);
+			snData.setActNo(actNo);
+			snData.setActValue(actValue);
+			snData.setGdNo(gdNo);
+			snData.setGdLogicalOperator(gdLogicalOperator);
+			snData.setGdValue(gdValue);
+			scenarioList.add(new ScenarioData());
 
 			//2000msで停止
 			gdNo = 2;
@@ -138,7 +190,15 @@ public class ScenarioMake {
 			gdValue = new ArrayList<Double>();
 			gdValue.add(4000.0);
 
-			ScenarioList.add(new ScenarioData(sceneNo, stateNo, actNo, actValue, gdNo, gdLogicalOperator, gdValue));
+			snData = new ScenarioData();
+			snData.setSceneNo(sceneNo);
+			snData.setStateNo(stateNo);
+			snData.setActNo(actNo);
+			snData.setActValue(actValue);
+			snData.setGdNo(gdNo);
+			snData.setGdLogicalOperator(gdLogicalOperator);
+			snData.setGdValue(gdValue);
+			scenarioList.add(new ScenarioData());
 
 			//5000mmで停止
 			gdNo = 1;
@@ -146,7 +206,15 @@ public class ScenarioMake {
 			gdValue = new ArrayList<Double>();
 			gdValue.add(5000.0);
 
-			ScenarioList.add(new ScenarioData(sceneNo, stateNo, actNo, actValue, gdNo, gdLogicalOperator, gdValue));
+			snData = new ScenarioData();
+			snData.setSceneNo(sceneNo);
+			snData.setStateNo(stateNo);
+			snData.setActNo(actNo);
+			snData.setActValue(actValue);
+			snData.setGdNo(gdNo);
+			snData.setGdLogicalOperator(gdLogicalOperator);
+			snData.setGdValue(gdValue);
+			scenarioList.add(new ScenarioData());
 
 			//7000msで停止
 			gdNo = 2;
@@ -154,10 +222,20 @@ public class ScenarioMake {
 			gdValue = new ArrayList<Double>();
 			gdValue.add(7000.0);
 
-			ScenarioList.add(new ScenarioData(sceneNo, stateNo, actNo, actValue, gdNo, gdLogicalOperator, gdValue));
+			snData = new ScenarioData();
+			snData.setSceneNo(sceneNo);
+			snData.setStateNo(stateNo);
+			snData.setActNo(actNo);
+			snData.setActValue(actValue);
+			snData.setGdNo(gdNo);
+			snData.setGdLogicalOperator(gdLogicalOperator);
+			snData.setGdValue(gdValue);
+			scenarioList.add(new ScenarioData());
 
-			*/
 
+*/
+
+/*
 			sceneNo = 3;
 			stateNo = 3;
 			actNo = 2;
@@ -172,7 +250,15 @@ public class ScenarioMake {
 			gdValue.add(2.0);	//赤色
 			gdValue.add(3.0);	//3回連続
 
-			ScenarioList.add(new ScenarioData(sceneNo, stateNo, actNo, actValue, gdNo, gdLogicalOperator, gdValue));
+			snData = new ScenarioData();
+			snData.setSceneNo(sceneNo);
+			snData.setStateNo(stateNo);
+			snData.setActNo(actNo);
+			snData.setActValue(actValue);
+			snData.setGdNo(gdNo);
+			snData.setGdLogicalOperator(gdLogicalOperator);
+			snData.setGdValue(gdValue);
+			scenarioList.add(new ScenarioData());
 
 			//走行体停止
 			sceneNo = 4;
@@ -187,9 +273,19 @@ public class ScenarioMake {
 			gdLogicalOperator = 0;
 			gdValue = new ArrayList<Double>();
 
-			ScenarioList.add(new ScenarioData(sceneNo, stateNo, actNo, actValue, gdNo, gdLogicalOperator, gdValue));
+			snData = new ScenarioData();
+			snData.setSceneNo(sceneNo);
+			snData.setStateNo(stateNo);
+			snData.setActNo(actNo);
+			snData.setActValue(actValue);
+			snData.setGdNo(gdNo);
+			snData.setGdLogicalOperator(gdLogicalOperator);
+			snData.setGdValue(gdValue);
+			scenarioList.add(new ScenarioData());
+*/
 
 
+/*
 			//終了
 			sceneNo = 5;
 			stateNo = 4;
@@ -201,14 +297,17 @@ public class ScenarioMake {
 			gdLogicalOperator = 1;
 			gdValue = new ArrayList<Double>();
 
-			ScenarioList.add(new ScenarioData(sceneNo, stateNo, actNo, actValue, gdNo, gdLogicalOperator, gdValue));
+			snData = new ScenarioData();
+			snData.setSceneNo(sceneNo);
+			snData.setStateNo(stateNo);
+			snData.setActNo(actNo);
+			snData.setActValue(actValue);
+			snData.setGdNo(gdNo);
+			snData.setGdLogicalOperator(gdLogicalOperator);
+			snData.setGdValue(gdValue);
+			scenarioList.add(new ScenarioData());
+*/
 
-			break;
-		//無線通信デバイスからデータを受信してシナリオデータを作成する
-		case 1:
-
-			break;
-		}
 	}
 
 	/**
@@ -220,19 +319,19 @@ public class ScenarioMake {
 		List<ScenarioData> tmpSnList = new ArrayList<ScenarioData>();
 
 		//tmpシナリオリストに最初のシナリオデータを登録する
-		tmpSnList.add(ScenarioList.get(0));
+		tmpSnList.add(scenarioList.get(0));
 
 		//2つ目のシナリオデータからループを開始する
-		for(int iLoop = 1 ;iLoop < ScenarioList.size(); iLoop++){
+		for(int iLoop = 1 ;iLoop < scenarioList.size(); iLoop++){
 			//write(1,snData.getSceneNo(),snData.getStateNo(),snData.getActNo(),snData.getGdNo());
 
 			//シーン番号が変わった場合に、tmpシナリオリストの情報を競技状態を追加する
-			if(tmpSnList.get(0).getSceneNo() !=  ScenarioList.get(iLoop).getSceneNo()) {
+			if(tmpSnList.get(0).getSceneNo() !=  scenarioList.get(iLoop).getSceneNo()) {
 				getState(tmpSnList.get(0).getStateNo()).add(
 						new GuardMain(tmpSnList),
 						getActivity(tmpSnList.get(0).getActNo(),tmpSnList.get(0).getActValue())
 				);
-
+/*
 				for(int j = 0; j < tmpSnList.size(); j++ ) {
 					write(2,tmpSnList.get(j).getSceneNo(),
 							tmpSnList.get(j).getStateNo(),
@@ -240,18 +339,18 @@ public class ScenarioMake {
 							tmpSnList.get(j).getGdNo() );
 
 				}
-
+*/
 				//tmpシナリオリストを初期化する
 				tmpSnList = new ArrayList<ScenarioData>();
 			}
 			//tmpシナリオリストにシナリオデータを追加する
-			tmpSnList.add(ScenarioList.get(iLoop));
-
+			tmpSnList.add(scenarioList.get(iLoop));
+/*
 			write(1,tmpSnList.get(tmpSnList.size() - 1).getSceneNo(),
 					tmpSnList.get(tmpSnList.size() - 1).getStateNo(),
 					tmpSnList.get(tmpSnList.size() - 1).getActNo() ,
 					tmpSnList.get(tmpSnList.size() - 1).getGdNo() );
-
+*/
 		}
 
 		//最後のtmpシナリオデータの情報を競技状態を追加する
@@ -259,7 +358,7 @@ public class ScenarioMake {
 				new GuardMain(tmpSnList),
 				getActivity(tmpSnList.get(0).getActNo(),tmpSnList.get(0).getActValue())
 		);
-
+/*
 		for(int j = 0; j < tmpSnList.size(); j++ ) {
 			write(2,tmpSnList.get(j).getSceneNo(),
 					tmpSnList.get(j).getStateNo(),
@@ -267,7 +366,7 @@ public class ScenarioMake {
 					tmpSnList.get(j).getGdNo() );
 
 		}
-
+*/
 	}
 
 	/**
@@ -326,19 +425,37 @@ public class ScenarioMake {
 			//通常走行
 			case 2:
 				tmpActivity = new ActivityRun(
-						actValue.get(0).floatValue(),
-						actValue.get(1).floatValue()
-					);
+					actValue.get(0).floatValue(),
+					actValue.get(1).floatValue()
+				);
 				break;
 			//PID走行
 			case 3:
 				tmpActivity = new ActivityRunPID(
+					actValue.get(0).floatValue(),
+					actValue.get(1).floatValue(),
+					actValue.get(2).floatValue(),
+					actValue.get(3).floatValue(),
+					actValue.get(4).floatValue()
+				);
+				break;
+			//OnOff走行
+			case 4:
+				tmpActivity = new ActivityRunOnOff(
 						actValue.get(0).floatValue(),
-						actValue.get(1).floatValue(),
-						actValue.get(2).floatValue(),
-						actValue.get(3).floatValue(),
-						actValue.get(4).floatValue()
+						actValue.get(1).floatValue()
 					);
+					break;
+			//アーム操作(位置固定)
+			case 5:
+				tmpActivity =new ActivityArm(actValue.get(0).floatValue());
+				break;
+			//アーム操作(スロー)
+			case 6:
+				tmpActivity =new ActivityArmThrow(
+					actValue.get(0).floatValue(),
+					actValue.get(1).floatValue()
+				);
 				break;
 		}
 
@@ -346,6 +463,8 @@ public class ScenarioMake {
 
 	}
 
+
+/*
 
     //---> Add 2022/07/13 T.Okado Debug用
 	public void write(int no, int sceneNo, int stateNo, int actNo, int gdNo) {
@@ -369,6 +488,6 @@ public class ScenarioMake {
         }
     }
     //<--- Add 2022/07/13 T.Okado
-
+*/
 
 }

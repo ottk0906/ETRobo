@@ -4,7 +4,7 @@ package log;
  * 自己位置推定ログデータクラス
  * @author 尾角 武俊
  */
-public class LogSelfPositionData {
+public class LogSelfPositionData extends LogData {
 
 	private double currentX;			//移動後のX座標（計算後の自己位置）
 	private double currentY;			//移動後のY座標（計算後の自己位置）

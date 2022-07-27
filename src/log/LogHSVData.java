@@ -6,7 +6,7 @@ import body.measure.Measure.Color;
  * HSVログデータクラス
  * @author 原田　寛大
  */
-public class LogHSVData {
+public class LogHSVData extends LogData {
 	/** タスク呼び出し回数 */
 	private int count;
 	/** 色相:hue, 彩度:saturation, 明度:value */

@@ -6,7 +6,7 @@ import body.measure.Measure.Color;
  * HSVログデータクラス
  * @author 原田　寛大
  */
-public class LogHSLData {
+public class LogHSLData extends LogData {
 	private int count;
 	private float hue,saturation,lightness;
 	private Color color;

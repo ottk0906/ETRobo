@@ -4,7 +4,7 @@ package log;
  * RGBログデータクラス
  * @author 原田　寛大
  */
-public class LogRGBData {
+public class LogRGBData extends LogData {
 	/** タスク呼び出し回数 */
 	private int count;
 	/** red:赤,green:緑,blue:青 */

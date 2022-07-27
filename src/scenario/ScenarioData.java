@@ -17,24 +17,69 @@ public class ScenarioData {
 
 	/**
 	 * コンストラクタ
-	 * @param sceneNo			シーン番号
-	 * @param stateNo			競技状態番号
-	 * @param actNo			動作定義番号(Activity)
-	 * @param actValue			動作定義のパラメータ（Activityクラスを生成する際の引数値）
-	 * @param gdNo				状態遷移条件番号
-	 * @param gdLogicaOperator	論理演算子（0:AND / 1:OR）
-	 * @param gdValue			状態遷移条件のパラメータ（Guardクラスを生成する際の引数値）
 	 */
-	public ScenarioData(int sceneNo,int stateNo, int actNo, List<Double> actValue,
-						 int gdNo,int gdLogicalOperator,List<Double> gdValue ) {
+	public ScenarioData() {
+	}
+
+	//************* シナリオデータのsetter() *************
+
+	/**
+     * シーン番号を設定する
+     * @param シーン番号
+     */
+	public void setSceneNo(int sceneNo) {
 		this.sceneNo = sceneNo;
+	}
+
+	/**
+     * 競技状態番号を設定する
+     * @param 競技状態番号
+     */
+	public void setStateNo(int stateNo) {
 		this.stateNo = stateNo;
+	}
+
+	/**
+     * 動作定義番号を設定する
+     * @param 動作定義番号
+     */
+	public void setActNo(int actNo) {
 		this.actNo = actNo;
+	}
+
+	/**
+     * 動作定義のパラメータを設定する
+     * @param 動作定義のパラメータ（Activityクラスを生成する際の引数値）
+     */
+	public void setActValue(List<Double> actValue) {
 		this.actValue = actValue;
+	}
+
+	/**
+     * 状態遷移条件番号を設定する
+     * @param 状態遷移条件番号
+     */
+	public void setGdNo(int gdNo) {
 		this.gdNo = gdNo;
+	}
+
+	/**
+     * 論理演算子を設定する
+     * @param 論理演算子（0:AND / 1:OR）
+     */
+	public void setGdLogicalOperator(int gdLogicalOperator) {
 		this.gdLogicalOperator = gdLogicalOperator;
+	}
+
+	/**
+     * 状態遷移条件のパラメータを設定する
+     * @param 遷状態移条件のパラメータ（Guardクラスを生成する際の引数値）
+     */
+	public void setGdValue(List<Double> gdValue) {
 		this.gdValue = gdValue;
 	}
+
+	//************* シナリオデータのgetter() *************
 
 	/**
      * シーン番号を取得する

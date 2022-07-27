@@ -1,13 +1,10 @@
 package log;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import body.Body;
+import fileIO.CsvWrite;
 import game.Game;
 import game.SelfPosition.SelfPosition;
 import game.state.StateRun;
@@ -26,11 +23,13 @@ public class LogSelfPosition {
 	private SelfPosition selfPos;
 
     /** 自己位置推定ログデータリスト */
-    private List<LogSelfPositionData> logList;
+    private List<LogData> logList;
 
     /** ログファイル名 */
     private final String LOG_FILE_NAME = "logSelfPosition.csv";
 
+	/** CSVファイル出力クラス */
+	private CsvWrite csvWrite;
 
     /**
      * コンストラクタ
@@ -38,17 +37,20 @@ public class LogSelfPosition {
     public LogSelfPosition(Game game, SelfPosition selfPos) {
     	this.game = game;
     	this.selfPos = selfPos;
-        logList = new ArrayList<LogSelfPositionData>();
+        logList = new ArrayList<LogData>();
+        //CSVファイル出力クラスのインスタンスを生成する
+		csvWrite = new CsvWrite();
+		//ログファイルが既に存在する場合は削除する
+		csvWrite.deleteCsvFile(LOG_FILE_NAME);
 
-        try {
-	        //ログファイルが既に存在する場合は削除する
-	        File file = new File(LOG_FILE_NAME);
-	        if (file.exists()) file.delete();
-	        //ログファイルにヘッダ項目を出力する
-	        write(true);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
+		//ヘッダー文字列を設定する
+		String headerString = "X-Coord,Y-Coord,Accumulated-Angle,Accumulated-Distance,";
+		headerString = headerString + "Odometry-X,Odometry-Y,Odometry-Angle,";
+		headerString = headerString + "LeftWheel-Distance,RigjtWheel-Distance,Distance,";
+		headerString = headerString + "LeftWheel-Angle-Past,RightWheel-Angle-Past,elapsedTime";
+		csvWrite.setHeaderString(headerString);
+		//ヘッダーを出力する
+        write(true);
     }
 
     /**
@@ -68,23 +70,22 @@ public class LogSelfPosition {
      */
     private void add() {
     	//自己位置推定ログデータクラスのインスタンスを生成し、ログリストに追加する
-        logList.add(
-        	new LogSelfPositionData(
-        		selfPos.getXCoord(),
-        		selfPos.getYCoord(),
-        		selfPos.getAfterRadianToAngle(),
-        		selfPos.getAccumDistance(),
-        		selfPos.getOdometryX(),
-        		selfPos.getOdometryY(),
-        		selfPos.getOdometryRadianToAngle(),
-        		selfPos.getLeftDistnce(),
-        		selfPos.getRightDistnce(),
-        		selfPos.getDistnce(),
-        		selfPos.getLeftBeforeAngle(),
-        		selfPos.getRightBeforeAngle(),
-        		Body.stopwatch.elapsed()
-        	)
+		LogData data = new LogSelfPositionData(
+    		selfPos.getXCoord(),
+    		selfPos.getYCoord(),
+    		selfPos.getAfterRadianToAngle(),
+    		selfPos.getAccumDistance(),
+    		selfPos.getOdometryX(),
+    		selfPos.getOdometryY(),
+    		selfPos.getOdometryRadianToAngle(),
+    		selfPos.getLeftDistnce(),
+    		selfPos.getRightDistnce(),
+    		selfPos.getDistnce(),
+    		selfPos.getLeftBeforeAngle(),
+    		selfPos.getRightBeforeAngle(),
+    		Body.stopwatch.elapsed()
     	);
+		logList.add(data);
     }
 
     /**
@@ -106,42 +107,10 @@ public class LogSelfPosition {
      * ログを出力する
      */
     public void write(boolean init) {
-        try {
-            StringBuilder sb = new StringBuilder();
-
-            //ヘッダー項目を出力する
-            if(init) {
-	            sb.append("X-Coord").append(",");
-	        	sb.append("Y-Coord").append(",");
-	        	sb.append("Accumulated-Angle").append(",");
-	        	sb.append("Accumulated-Distance").append(",");
-	        	sb.append("Odometry-X").append(",");
-	        	sb.append("Odometry-Y").append(",");
-	        	sb.append("Odometry-Angle").append(",");
-	        	sb.append("LeftWheel-Distance").append(",");
-	        	sb.append("RigjtWheel-Distance").append(",");
-	        	sb.append("Distance").append(",");
-	        	sb.append("LeftWheel-Angle-Past").append(",");
-	        	sb.append("RightWheel-Angle-Past").append(",");
-	        	sb.append("elapsedTime").append("\r\n");
-        	//データ部分を出力する
-            } else {
-	        	for (LogSelfPositionData data : logList) {
-	                sb.append(data.toString());
-	            }
-            }
-
-        	File file = new File(LOG_FILE_NAME);
-            FileWriter fw = new FileWriter(file, true);	//アペンドモードで書き込む
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(sb.toString());
-            bw.close();
-
-            logList.clear();	//ログリストをクリアする
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		//CSVファイルに出力する
+		csvWrite.writeCsvFile(LOG_FILE_NAME, logList, true, init);
+		//ログリストをクリアする
+		logList.clear();
     }
 
 }

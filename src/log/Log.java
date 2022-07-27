@@ -1,12 +1,10 @@
 package log;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import body.Body;
+import fileIO.CsvWrite;
 import game.Game;
 import lejos.hardware.lcd.LCD;
 
@@ -19,11 +17,14 @@ public class Log {
 	/** 競技 */
 	Game game;
 
+	/** CSVファイル出力クラス */
+	private CsvWrite csvWrite;
+
 	/** ログデータリスト */
 	private List<LogData> logList;
-	private List<LogRGBData> logRGBList;
-	private List<LogHSVData> logHSVList;
-	private List<LogHSLData> logHSLList;
+	private List<LogData> logRGBList;
+	private List<LogData> logHSVList;
+	private List<LogData> logHSLList;
 
 	/**
 	 * コンストラクタ
@@ -31,9 +32,11 @@ public class Log {
 	public Log(Game game) {
 		this.game = game;
 		logList = new ArrayList<LogData>();
-		logRGBList = new ArrayList<LogRGBData>();
-        logHSVList = new ArrayList<LogHSVData>();
-        logHSLList = new ArrayList<LogHSLData>();
+		logRGBList = new ArrayList<LogData>();
+        logHSVList = new ArrayList<LogData>();
+        logHSLList = new ArrayList<LogData>();
+        //CSVファイル出力クラスのインスタンスを生成する
+		csvWrite = new CsvWrite();
 	}
 
 	/**
@@ -58,10 +61,10 @@ public class Log {
 	 * コース情報を追加する
 	 */
 	private void addCourse() {
-        logList.add(
-                new LogData(game.getCount(), game.toString(),
-                        Body.measure.getHue(), Body.measure.getSaturation(), Body.measure.getValue(),
-                        Body.measure.getLeftRotationSpeed(), Body.measure.getRightRotationSpeed()));
+		LogData data = new LogDataCourse(game.getCount(), game.toString(),
+                Body.measure.getHue(), Body.measure.getSaturation(), Body.measure.getValue(),
+                Body.measure.getLeftRotationSpeed(), Body.measure.getRightRotationSpeed());
+        logList.add(data);
 	}
 
 	/**
@@ -69,25 +72,28 @@ public class Log {
 	 */
 	private void addRGB() {
 		float[] rgb = Body.measure.getRGB();
-		logRGBList.add(new LogRGBData(game.getCount(), rgb[0], rgb[1], rgb[2]));
+		LogData data = new LogRGBData(game.getCount(), rgb[0], rgb[1], rgb[2]);
+		logRGBList.add(data);
 	}
 
 	/**
 	 * HSV情報を追加する
 	 */
 	private void addHSV() {
-		logHSVList.add(new LogHSVData(game.getCount(),
+		LogData data = new LogHSVData(game.getCount(),
 				Body.measure.getHueHSV(), Body.measure.getSaturationHSV(),
-				Body.measure.getValueHSV(), Body.measure.getColorHSV()));
+				Body.measure.getValueHSV(), Body.measure.getColorHSV());
+		logHSVList.add(data);
 	}
 
 	/**
 	 * HSL情報を追加する
 	 */
 	private void addHSL() {
-		logHSLList.add(new LogHSLData(game.getCount(),
+		LogData data = new LogHSLData(game.getCount(),
 				Body.measure.getHueHSV(), Body.measure.getSaturationHSV(),
-				Body.measure.getValueHSV(), Body.measure.getColorHSL()));
+				Body.measure.getValueHSV(), Body.measure.getColorHSL());
+		logHSLList.add(data);
 	}
 
 	/**
@@ -107,7 +113,7 @@ public class Log {
 	}
 
 	/**
-	 * ファイルに保存する
+	 * ファイルに出力する
 	 */
 	public void write() {
 		writeCourse();
@@ -120,73 +126,43 @@ public class Log {
 	 * コース情報を出力する
 	 */
 	public void writeCourse() {
-
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File("log.csv")));) {
-			StringBuilder sb = new StringBuilder();
-
-			sb.append("count,status,hue,saturation,value,leftRotationSpeed,rightRotationSpeed\r\n");
-			for (LogData data : logList) {
-				sb.append(data.toString());
-			}
-			bw.write(sb.toString());
-			bw.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		//ヘッダー文字列を設定する
+		String headerString = "count,status,hue,saturation,value,leftRotationSpeed,rightRotationSpeed";
+		csvWrite.setHeaderString(headerString);
+		//CSVファイルに出力する
+		csvWrite.writeCsvFile("log.csv", logList, false, true);
 	}
-
 
 	/**
 	 * RGB情報を出力する
 	 */
 	public void writeRGB() {
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File("RGBLog.csv")));) {
-			StringBuilder sb = new StringBuilder();
-
-			sb.append("Count,Red,Green,Blue\r\n");
-			for (LogRGBData data : logRGBList) {
-				sb.append(data.toString());
-			}
-			bw.write(sb.toString());
-			bw.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		//ヘッダー文字列を設定する
+		String headerString = "Count,Red,Green,Blue";
+		csvWrite.setHeaderString(headerString);
+		//CSVファイルに出力する
+		csvWrite.writeCsvFile("RGBLog.csv", logRGBList, false, true);
 	}
 
 	/**
 	 * HSV情報を出力する
 	 */
 	public void writeHSV() {
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File("logHSV.csv")));) {
-			StringBuilder sb = new StringBuilder();
-
-			sb.append("Count,Hue,Saturation,Value,Color\r\n");
-			for (LogHSVData data : logHSVList) {
-				sb.append(data.toString());
-			}
-			bw.write(sb.toString());
-			bw.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		//ヘッダー文字列を設定する
+		String headerString = "Count,Hue,Saturation,Value,Color";
+		csvWrite.setHeaderString(headerString);
+		//CSVファイルに出力する
+		csvWrite.writeCsvFile("logHSV.csv", logHSVList, false, true);
 	}
 
 	/**
 	 * HSL情報を出力する
 	 */
 	public void writeHSL() {
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File("logHSL.csv")));) {
-			StringBuilder sb = new StringBuilder();
-
-			sb.append("Count,Hue,Saturation,Lightness,Color\r\n");
-			for (LogHSLData data : logHSLList) {
-				sb.append(data.toString());
-			}
-			bw.write(sb.toString());
-			bw.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		//ヘッダー文字列を設定する
+		String headerString = "Count,Hue,Saturation,Lightness,Color";
+		csvWrite.setHeaderString(headerString);
+		//CSVファイルに出力する
+		csvWrite.writeCsvFile("logHSL.csv", logHSLList, false, true);
 	}
 }

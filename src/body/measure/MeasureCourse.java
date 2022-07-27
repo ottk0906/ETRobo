@@ -214,7 +214,6 @@ public class MeasureCourse {
 		hsv[2] = v;
 	}
 
-
 	//************* 色判定閾値設定のsetter() *************
 
 	/**
@@ -372,7 +371,7 @@ public class MeasureCourse {
 	//************* HSVの閾値設定のgetter() *************
 
 	/**
-	 * 閾値を設定する（HSVでの白色の上限値）
+	 * 閾値を取得する（HSVでの白色の上限値）
 	 * @return 閾値
 	 */
 	public float getLimitSatWhiteHSV() {
@@ -380,7 +379,7 @@ public class MeasureCourse {
 	}
 
 	/**
-	 * 閾値を設定する（HSVでの黒色の上限値）
+	 * 閾値を取得する（HSVでの黒色の上限値）
 	 * @return 閾値
 	 */
 	public float getLimitSatBlackHSV() {
