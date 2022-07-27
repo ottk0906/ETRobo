@@ -18,14 +18,8 @@ public class Measure {
 	/**
 	 * カラー定数
 	 */
-	public enum Color{
-		White(0),
-		Black(1),
-		Red(2),
-		Yellow(3),
-		Green(4),
-		Blue(5),
-		Other(6);
+	public enum Color {
+		White(0), Black(1), Red(2), Yellow(3), Green(4), Blue(5), Other(6);
 
 		private final int color;
 
@@ -300,9 +294,6 @@ public class Measure {
 	 */
 	public void calcColorBorder() {
 
-		//★★★ここにキャリブレーション結果から算出した色判定の閾値を設定するプログラムを追加して以下の4変数に値を入れる！！！
-		//★★★修正したらこの2行のコメントは削除してね。
-
 		float borderRedToYellow = 30.0f;
 		float borderYellowToGreen = 90.0f;
 		float borderGreenToBlue = 180.0f;
@@ -315,22 +306,25 @@ public class Measure {
 		float target = Body.measure.getTarget();
 		float white = Body.measure.getWhite();
 
-		sat100BlackJudgeValueToHSL = target - (white - target) * 35.0f / 50f;
-		sat100WhiteJudgeValueToHSL = target + (white - target) * 35.0f / 50f;
+		//targetからwhiteの数値の差
+		float tmp = white - target;
 
-		/** (limitWhite - averageLimitWhiteBlack)が0.035fになるような係数 */
-		float correctionJudgeColorHSL = 0.35f / (sat100WhiteJudgeValueToHSL - target);
+		sat100BlackJudgeValueToHSL = target - tmp * (3.0f / 5.0f);
+		sat100WhiteJudgeValueToHSL = target + tmp * (3.0f / 5.0f);
 
-		sat50BlackJudgeValueToHSL = target - 0.3f * correctionJudgeColorHSL;
-		sat50WhiteJudgeValueToHSL = target + 0.3f * correctionJudgeColorHSL;
+		sat50BlackJudgeValueToHSL = target - tmp * (2.0f / 5.0f);
+		sat50WhiteJudgeValueToHSL = target + tmp * (2.0f / 5.0f);
 
 		// judgeColorHSVで使用 白色の上限値
 		float limitSatWhiteHSV;
 		// judgeColorHSVで使用 黒色の上限値
 		float limitSatBlackHSV;
 
-		limitSatWhiteHSV = 0.5f;
-		limitSatBlackHSV = Body.measure.getTarget() * 3.0f / 5.0f;
+		limitSatWhiteHSV = 0.25f;
+		limitSatBlackHSV = (Body.measure.getTarget() - Body.measure.getBlack()) * (4.0f / 5.0f);
+
+		measureCourse.setLimitSatWhiteHSV(limitSatWhiteHSV);
+		measureCourse.setLimitSatBlackHSV(limitSatBlackHSV);
 
 		measureCourse.setSat50BlackJudgeValueToHSL(sat50BlackJudgeValueToHSL);
 		measureCourse.setSat50WhiteJudgeValueToHSL(sat50WhiteJudgeValueToHSL);
