@@ -1,7 +1,5 @@
 package body.measure;
 
-import body.Body;
-
 /**
  * 計測クラス
  * デザインパターンのFacadeパターンを採用
@@ -293,35 +291,18 @@ public class Measure {
 	 * 色判定用の閾値を算出する
 	 */
 	public void calcColorBorder() {
+		float borderRedToYellow = 26.5f;
+		float borderYellowToGreen = 85.5f;
+		float borderGreenToBlue = 168.25f;
+		float borderBlueToRed = 289.25f;
 
-		float borderRedToYellow = 30.0f;
-		float borderYellowToGreen = 90.0f;
-		float borderGreenToBlue = 180.0f;
-		float borderBlueToRed = 300.0f;
+		float sat50BlackJudgeValueToHSL = 0.3f;
+		float sat50WhiteJudgeValueToHSL = 0.7f;
+		float sat100BlackJudgeValueToHSL = 0.2f;
+		float sat100WhiteJudgeValueToHSL = 0.8f;
 
-		float sat50BlackJudgeValueToHSL;
-		float sat50WhiteJudgeValueToHSL;
-		float sat100BlackJudgeValueToHSL;
-		float sat100WhiteJudgeValueToHSL;
-		float target = Body.measure.getTarget();
-		float white = Body.measure.getWhite();
-
-		//targetからwhiteの数値の差
-		float tmp = white - target;
-
-		sat100BlackJudgeValueToHSL = target - tmp * (3.0f / 5.0f);
-		sat100WhiteJudgeValueToHSL = target + tmp * (3.0f / 5.0f);
-
-		sat50BlackJudgeValueToHSL = target - tmp * (2.0f / 5.0f);
-		sat50WhiteJudgeValueToHSL = target + tmp * (2.0f / 5.0f);
-
-		// judgeColorHSVで使用 白色の上限値
-		float limitSatWhiteHSV;
-		// judgeColorHSVで使用 黒色の上限値
-		float limitSatBlackHSV;
-
-		limitSatWhiteHSV = 0.25f;
-		limitSatBlackHSV = (Body.measure.getTarget() - Body.measure.getBlack()) * (4.0f / 5.0f);
+		float limitSatWhiteHSV = 0.25f;
+		float limitSatBlackHSV = 0.4f;
 
 		measureCourse.setLimitSatWhiteHSV(limitSatWhiteHSV);
 		measureCourse.setLimitSatBlackHSV(limitSatBlackHSV);

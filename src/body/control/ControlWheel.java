@@ -30,8 +30,6 @@ public class ControlWheel {
     /**
      * 制御する
      */
-    /* 回転させるメソッドを作ったほうが良いか？
-     * ward(Motor xxMotor,float xxspeed)*/
     public void run(){
         leftMotor.setSpeed(leftRotationSpeed);
         rightMotor.setSpeed(rightRotationSpeed);

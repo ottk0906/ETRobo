@@ -37,6 +37,8 @@ public class Game {
 		//StateCalibrationWhite.getInstance().add(new GuardTouch(), new ActivityCalibrationWhite());
 		//StateCalibrationBlack.getInstance().add(new GuardTouch(), new ActivityCalibrationBlack());
 		//StateWaitStart.getInstance().add(new GuardTouch(), new ActivityRun(0, 0));
+		//StateRun.getInstance().add(new GuardTouch(), new ActivityRun(200, 0));
+
 		//StateRun.getInstance().add(new GuardTimer(2000), new ActivityRun(300, 0));
 		//StateRun.getInstance().add(new GuardTimer(3000), new ActivityRun(200, 0));
 		//StateRun.getInstance().add(new GuardArmThrow(30.0f), new ActivityArmThrow(50,300));
@@ -97,7 +99,6 @@ public class Game {
 		//StateEnd.getInstance().add(new GuardTouch(), new ActivityRun(0, 0));
 */
 
-
 		ScenarioMake Scenario = new ScenarioMake();
 		Scenario.makeScenarioList(INIT_SCENARIO_LIST_FILE);
 		Scenario.makeMoveStatus();
@@ -116,9 +117,7 @@ public class Game {
 			if (state instanceof StateEnd) {
 				isOver = true;
 			} else {
-				//measure.update();
 				state.doActivity(this);
-				//control.run();
 			}
 		}
 	}

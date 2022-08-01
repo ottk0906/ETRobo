@@ -143,6 +143,15 @@ public class GuardMain extends Guard {
 			case 7:
 				tmpGuard = new GuardArmThrow(gdValue.get(0).floatValue());
 				break;
+			//アーム移動角度指定
+			case 8:
+				tmpGuard = new GuardCoord(gdValue.get(0).intValue(),
+									gdValue.get(1).doubleValue(),
+									gdValue.get(2).doubleValue(),
+									gdValue.get(3).doubleValue(),
+									gdValue.get(4).doubleValue()
+								);
+				break;
 		}
 
 		return tmpGuard;

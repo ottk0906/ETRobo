@@ -28,13 +28,13 @@ public class CsvRead {
 		//CSVファイルを読み込む
 		csvDataArr = readCsvFile(fileNme);
 
-		final int SCENE_NO_ROW = 1;					//シーン番号の位置
-		final int STATE_NO_ROW = 2;					//状態番号の位置
-		final int ACT_NO_ROW = 3;					//動作番号の位置
-		final int ACT_DETAIL_NUM_ROW = 4;			//動作パラメータ数の位置
-		final int GUARD_NO_ROW = 15;					//遷移条件番号の位置
-		final int GUARD_LOGIC_OPE_ROW = 16;			//遷移条件論理演算子の位置
-		final int GUARD_DETAIL_NUM_ROW = 17;		//遷移条件パラメータ数の位置
+		final int SCENE_NO_ROW = 0;					//シーン番号の位置
+		final int STATE_NO_ROW = 1;					//状態番号の位置
+		final int ACT_NO_ROW = 2;					//動作番号の位置
+		final int ACT_DETAIL_NUM_ROW = 3;			//動作パラメータ数の位置
+		final int GUARD_NO_ROW = 14;					//遷移条件番号の位置
+		final int GUARD_LOGIC_OPE_ROW = 15;			//遷移条件論理演算子の位置
+		final int GUARD_DETAIL_NUM_ROW = 16;		//遷移条件パラメータ数の位置
 
 		List<Double> actValue;		//動作のパラメータ
 		List<Double> gdValue;		//遷移条件のパラメータ

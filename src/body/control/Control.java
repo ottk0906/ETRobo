@@ -30,7 +30,6 @@ public class Control {
 	/** アームモード */
 	private int armMode;
 
-
 	/**
 	 * コンストラクタ
 	 * @param controlWheel 車輪制御
