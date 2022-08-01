@@ -60,9 +60,9 @@ public class Control {
 		controlArm.setArmMode(this.armMode);
 
 		controlWheel.run();
+		controlArm.run();
 		//走行中の場合のみ、
         if (game.getStatus() instanceof StateRun) {
-			controlArm.run();
 			controlColor.run();
         }
 	}
@@ -114,5 +114,4 @@ public class Control {
 	public void setArmMode(int armMode) {
 		this.armMode = armMode;
 	}
-
 }

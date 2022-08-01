@@ -3,7 +3,7 @@ package game;
 import body.control.Control;
 import body.measure.Measure;
 import game.state.State;
-import game.state.StateCalibrationWhite;
+import game.state.StateCalibrationArm;
 import game.state.StateEnd;
 import scenario.ScenarioMake;
 
@@ -105,7 +105,7 @@ public class Game {
 
 		//StateEnd.getInstance().add(new GuardTouch(), new ActivityRun(0, 0));
 
-		changeState(null, StateCalibrationWhite.getInstance());
+		changeState(null, StateCalibrationArm.getInstance());
 	}
 
 	/**

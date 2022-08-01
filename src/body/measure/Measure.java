@@ -319,4 +319,11 @@ public class Measure {
 
 	}
 
+	/**
+	 * アームモータの角度をリセットする
+	 */
+	public void resetArmPosition() {
+		measureArm.resetArmPosition();
+	}
+
 }
