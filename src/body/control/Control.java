@@ -50,8 +50,8 @@ public class Control {
 	public void run() {
 		turn = (float) Math.toRadians(turn);
 
-		float leftRotationSpeed = (float) Math.toDegrees((2.0f * forward - Body.TREAD * turn) / Body.DIAMETER);
-		float rightRotationSpeed = (float) Math.toDegrees((2.0f * forward + Body.TREAD * turn) / Body.DIAMETER);
+		float leftRotationSpeed = (float) Math.toDegrees((2.0f * forward + Body.TREAD * turn) / Body.DIAMETER);
+		float rightRotationSpeed = (float) Math.toDegrees((2.0f * forward - Body.TREAD * turn) / Body.DIAMETER);
 
 		controlWheel.setLeftRotationSpeed(leftRotationSpeed);
 		controlWheel.setRightRotationSpeed(rightRotationSpeed);
