@@ -17,6 +17,10 @@ public class ActivityCalibrationBlack extends Activity {
 	 */
 	public ActivityCalibrationBlack() {
 		this.minRGB = new float[3];
+		//最大値を設定
+		minRGB[0] = 1;
+		minRGB[1] = 1;
+		minRGB[2] = 1;
 	}
 
 	/**
@@ -42,14 +46,19 @@ public class ActivityCalibrationBlack extends Activity {
 	 */
 	@Override
 	public void exitAction() {
-
 		//黒RGB値とRGBの割合の係数を設定する
 		Body.measure.setBlackRGB(minRGB);
 		Body.measure.setKRKGKB();
 
-		//黒明度と目標明度を設定する
-		//Body.measure.setBlack(Body.measure.getValue());
-		//Body.measure.setTarget((Body.measure.getWhite() + Body.measure.getBlack()) / 2.0f);
+		//黒RGB値の中で最大の数値を設定する
+		float tmp = minRGB[0];
+		for (int i = 1; i < minRGB.length; i++) {
+			if (tmp < minRGB[i]) {
+				tmp = minRGB[i];
+			}
+		}
+		Body.measure.setBlack(tmp);
+
 		//色判定用の閾値を設定する
 		Body.measure.calcColorBorder();
 	}

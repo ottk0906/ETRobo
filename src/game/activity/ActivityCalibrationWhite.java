@@ -42,8 +42,17 @@ public class ActivityCalibrationWhite extends Activity {
 	 */
 	@Override
 	public void exitAction() {
-		//Body.measure.setWhite(Body.measure.getValue());
+		//白RGBを設定する
 		Body.measure.setWhiteRGB(maxRGB);
+
+		//白RGB値の中で最小の数値を設定する
+		float tmp = maxRGB[0];
+		for (int i = 1; i < maxRGB.length; i++) {
+			if (tmp > maxRGB[i]) {
+				tmp = maxRGB[i];
+			}
+		}
+		Body.measure.setWhite(tmp);
 	}
 
 }
