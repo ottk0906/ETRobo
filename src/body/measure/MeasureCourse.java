@@ -64,6 +64,7 @@ public class MeasureCourse {
 		rgb = new float[sensorMode.sampleSize()];
 		hsv = new float[3];
 
+		// 仮キャリブレーション
 		whiteRGB = new float[3];
 		blackRGB = new float[3];
 		blackRGB[0] = 0.0f;
@@ -74,10 +75,6 @@ public class MeasureCourse {
 		kg = 1;
 		kb = 1;
 
-		// 仮キャリブレーション
-		white = 0.2f;
-		black = 0.0f;
-		target = (white + black) / 2.0f;
 	}
 
 	/**
