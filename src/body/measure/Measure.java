@@ -319,4 +319,29 @@ public class Measure {
 
 	}
 
+	//************* RGBキャリブレーション *************
+
+	/**
+	 * 白RGBを設定する
+	 * @param maxRGB
+	 */
+	public void setWhiteRGB(float[] maxRGB) {
+		measureCourse.setWhtieRGB(maxRGB);
+	}
+
+	/**
+	 * 黒RGBを設定する
+	 * @param minRGB
+	 */
+	public void setBlackRGB(float[] minRGB) {
+		measureCourse.setBlackRGB(minRGB);
+	}
+
+	/**
+	 * RGBの係数をキャリブレーション結果から設定する
+	 */
+	public void setKRKGKB() {
+		measureCourse.setKRKGKB();
+	}
+
 }

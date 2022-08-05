@@ -9,13 +9,13 @@ import lejos.hardware.sensor.SensorMode;
  */
 public class MeasureCourse {
 
-	/**赤色上限値,黄色下限値*/
+	//赤色上限値,黄色下限値
 	private float borderRedToYellow;
-	/**黄色上限値,緑色下限値*/
+	//黄色上限値,緑色下限値
 	private float borderYellowToGreen;
-	/**緑色上限値,青色下限値*/
+	//緑色上限値,青色下限値
 	private float borderGreenToBlue;
-	/**青色上限値,赤色下限値*/
+	//青色上限値,赤色下限値
 	private float borderBlueToRed;
 	// judgeColorHSLで使用 saturation = 0.5f以下の時
 	private float sat50BlackJudgeValueToHSL;
@@ -27,6 +27,14 @@ public class MeasureCourse {
 	private float limitSatWhiteHSV;
 	// judgeColorHSVで使用 黒色の上限値
 	private float limitSatBlackHSV;
+	// RGBの係数
+	private float kr;
+	private float kg;
+	private float kb;
+	// 白RGB(赤、緑、青)
+	private float whiteRGB[];
+	// 黒RGB(赤、緑、青)
+	private float blackRGB[];
 
 	/** カラーセンサ */
 	private EV3ColorSensor colorSensor;
@@ -56,6 +64,16 @@ public class MeasureCourse {
 		rgb = new float[sensorMode.sampleSize()];
 		hsv = new float[3];
 
+		whiteRGB = new float[3];
+		blackRGB = new float[3];
+		blackRGB[0] = 0.0f;
+		blackRGB[1] = 0.0f;
+		blackRGB[2] = 0.0f;
+		target = 0.5f;
+		kr = 1;
+		kg = 1;
+		kb = 1;
+
 		// 仮キャリブレーション
 		white = 0.2f;
 		black = 0.0f;
@@ -68,6 +86,9 @@ public class MeasureCourse {
 	public void update() {
 		// RGBを取得する
 		sensorMode.fetchSample(rgb, 0);
+
+		//RGBに補正をかける
+		ajustRGB();
 
 		// RGBをHSVに変換する
 		convertRGBtoHSV(rgb);
@@ -385,4 +406,68 @@ public class MeasureCourse {
 	public float getLimitSatBlackHSV() {
 		return limitSatBlackHSV;
 	}
+
+	//************* RGBキャリブレーション *************
+
+	/**
+	 * 白RGBを設定する
+	 * @param maxRGB
+	 */
+	public void setWhtieRGB(float[] maxRGB) {
+		this.whiteRGB = maxRGB;
+	}
+
+	/**
+	 * 黒RGBを設定する
+	 * @param minRGB
+	 */
+	public void setBlackRGB(float[] minRGB) {
+		this.blackRGB = minRGB;
+	}
+
+	/**
+	 * RGBの係数をキャリブレーション結果から設定する
+	 */
+	public void setKRKGKB() {
+		kr = 1.0f / (whiteRGB[0] - blackRGB[0]);
+		kg = 1.0f / (whiteRGB[1] - blackRGB[1]);
+		kb = 1.0f / (whiteRGB[2] - blackRGB[2]);
+	}
+
+	/**
+	 * RGBの数値に補正をかける
+	 * その数値が0～1内なら今回の数値を、
+	 * 0～1外なら前回の0～1内の数値を使用する
+	 */
+	public void ajustRGB() {
+		//赤を0～1の数値に変換する
+		float tmp = (rgb[0] - blackRGB[0]) * kr;
+
+		if (tmp < 0) {
+			tmp = 0;
+		} else if (tmp > 1) {
+			tmp = 1;
+		}
+		rgb[0] = tmp;
+
+		//緑を0～1の数値に変換する
+		tmp = (rgb[1] - blackRGB[1]) * kg;
+		if (tmp < 0) {
+			tmp = 0;
+		} else if (tmp > 1) {
+			tmp = 1;
+		}
+		rgb[1] = tmp;
+
+		//青を0～1の数値に変換する
+		tmp = (rgb[2] - blackRGB[2]) * kb;
+		if (tmp < 0) {
+			tmp = 0;
+		} else if (tmp > 1) {
+			tmp = 1;
+		}
+		rgb[2] = tmp;
+
+	}
+
 }

@@ -81,7 +81,7 @@ public class ControlArm {
 	/**
 	 * 目標角度からアームモータの回転速度を算出する
 	 */
-	public void calcArmRotationSpeed() {
+	private void calcArmRotationSpeed() {
 		float p, i, d;
 		// 現在の角度を取得する
 		float tmpDegrees = armMotor.getPosition();
