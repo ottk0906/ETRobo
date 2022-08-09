@@ -14,8 +14,6 @@ public class Control {
 	ControlWheel controlWheel;
 	/** アーム制御 */
 	ControlArm controlArm;
-	/** カラー制御 */
-	ControlColor controlColor;
 
     /** 競技 */
     private Game game;
@@ -34,12 +32,10 @@ public class Control {
 	 * コンストラクタ
 	 * @param controlWheel 車輪制御
 	 * @param controlArm 	アーム制御
-	 * @param controlColor カラー制御
 	 */
-	public Control(ControlWheel controlWheel, ControlArm controlArm, ControlColor controlColor) {
+	public Control(ControlWheel controlWheel, ControlArm controlArm) {
 		this.controlWheel = controlWheel;
 		this.controlArm = controlArm;
-		this.controlColor = controlColor;
 	}
 
 	/**
@@ -63,7 +59,6 @@ public class Control {
 		//走行中の場合のみ、
         if (game.getStatus() instanceof StateRun) {
 			controlArm.run();
-			controlColor.run();
         }
 	}
 

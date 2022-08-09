@@ -154,6 +154,9 @@ public class MeasureCourse {
 	 */
 	public float getHue(){
 	    return hsv[0];
+
+	    //return measureCourseHSL.getHue();
+
 	}
 
 	/**
@@ -162,6 +165,8 @@ public class MeasureCourse {
 	 */
 	public float getSaturation(){
 	    return hsv[1];
+
+	    //return measureCourseHSL.getSaturation();
 	}
 
 	/**
@@ -170,6 +175,7 @@ public class MeasureCourse {
 	 */
 	public float getValue() {
 		return hsv[2];
+	    //return measureCourseHSL.getValue();
 	}
 
 	/**

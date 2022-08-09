@@ -2,7 +2,6 @@ package body;
 
 import body.control.Control;
 import body.control.ControlArm;
-import body.control.ControlColor;
 import body.control.ControlWheel;
 import body.measure.Measure;
 import body.measure.MeasureArm;
@@ -39,6 +38,8 @@ public final class Body {
 	public static final float TREAD = 147.0f;
 	/** 車輪の円周(mm) */
 	public static final float CIRCLE = 320.0f;
+	/** ログファイルのサフィックス値 */
+	public static String logFileSuffix = "0";
 
 	static {
 
@@ -58,8 +59,7 @@ public final class Body {
 		// 制御の初期化
 		ControlWheel controlWheel = new ControlWheel(leftMotor, rightMotor);
 		ControlArm controlArm = new ControlArm(armMotor);
-		ControlColor controlColor = new ControlColor();
-		control = new Control(controlWheel, controlArm, controlColor);
+		control = new Control(controlWheel, controlArm);
 		// 自己位置推定クラス
 		selfPos = new SelfPosition();
 	    //ストップウォッチクラスを生成する

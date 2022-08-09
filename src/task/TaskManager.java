@@ -7,6 +7,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import body.Body;
+import fileIO.CsvWrite;
 import game.Game;
 import lejos.hardware.lcd.LCD;
 import log.Log;
@@ -42,12 +43,16 @@ public class TaskManager {
      * コンストラクタ
      */
     public TaskManager(){
-        // タスク初期化 開始
+    	// タスク初期化 開始
         LCD.drawString("Initialize", 0, 0);
 
         // スケジューラ生成
         scheduler = Executors.newScheduledThreadPool(2);
         countDownLatch = new CountDownLatch(1);
+
+		//ログファイルのサフィックス値を取得する
+		CsvWrite csvWrite = new CsvWrite();
+		Body.logFileSuffix = csvWrite.getLogFileSuffix();
 
         // タスク生成
         game = new Game();
@@ -103,6 +108,5 @@ public class TaskManager {
             futureGame.cancel(true);
         }
         scheduler.shutdownNow();
-        log.write();
     }
 }

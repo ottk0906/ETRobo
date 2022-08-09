@@ -20,6 +20,7 @@ public class LogDataCourse extends LogData {
     private float leftRotationSpeed;
     /** 右モータの角速度(度/秒) */
     private float rightRotationSpeed;
+	private int elapsedTime;			//経過時間(走行体起動時からの経過時間(ms))
 
     /**
      * コンストラクタ
@@ -30,8 +31,9 @@ public class LogDataCourse extends LogData {
      * @param brightness 路面明度
      * @param leftRotationSpeed 左モータの角速度(度/秒)
      * @param rightRotationSpeed 右モータの角速度(度/秒)
+     * @param elapsedTime	経過時間(走行体起動時からの経過時間(ms))
      */
-    public LogDataCourse(int count, String statusName, float hue, float saturation, float value, float leftRotationSpeed, float rightRotationSpeed){
+    public LogDataCourse(int count, String statusName, float hue, float saturation, float value, float leftRotationSpeed, float rightRotationSpeed, int elapsedTime){
         this.count = count;
         this.statusName = statusName;
         this.hue = hue;
@@ -39,6 +41,7 @@ public class LogDataCourse extends LogData {
         this.value = value;
         this.leftRotationSpeed = leftRotationSpeed;
         this.rightRotationSpeed = rightRotationSpeed;
+		this.elapsedTime = elapsedTime;
     }
 
 	/**
@@ -60,6 +63,8 @@ public class LogDataCourse extends LogData {
         sb.append(leftRotationSpeed);
         sb.append(",");
         sb.append(rightRotationSpeed);
+        sb.append(",");
+        sb.append(elapsedTime);
         sb.append("\r\n");
 
 		return sb.toString();

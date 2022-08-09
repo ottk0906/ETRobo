@@ -13,13 +13,23 @@ public class LogHSVData extends LogData {
 	private float hue,saturation,value;
 	/** 判定された色 */
 	private Color color;
+	private int elapsedTime;			//経過時間(走行体起動時からの経過時間(ms))
 
-	public LogHSVData(int count,float hue,float saturation,float value,Color color) {
+    /**
+     * コンストラクタ
+     * @param count		連番
+     * @param hue			色相の値
+     * @param saturation	彩度の値
+     * @param value		明度の値
+     * @param elapsedTime	経過時間(走行体起動時からの経過時間(ms))
+     */
+	public LogHSVData(int count,float hue,float saturation,float value,Color color,int elapsedTime) {
 		this.count = count;
 		this.hue = hue;
 		this.saturation = saturation;
 		this.value = value;
 		this.color = color;
+		this.elapsedTime = elapsedTime;
 	}
 
 	/**
@@ -37,6 +47,8 @@ public class LogHSVData extends LogData {
 		sb.append(value);
 		sb.append(",");
 		sb.append(color);
+        sb.append(",");
+        sb.append(elapsedTime);
 		sb.append("\r\n");
 
 		return sb.toString();

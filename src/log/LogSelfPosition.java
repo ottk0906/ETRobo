@@ -26,13 +26,15 @@ public class LogSelfPosition {
     private List<LogData> logList;
 
     /** ログファイル名 */
-    private final String LOG_FILE_NAME = "logSelfPosition.csv";
+    private String fileName;
 
 	/** CSVファイル出力クラス */
 	private CsvWrite csvWrite;
 
     /**
      * コンストラクタ
+     * @param	game		競技クラス
+     * @param	selfPos		自己位置推定クラス
      */
     public LogSelfPosition(Game game, SelfPosition selfPos) {
     	this.game = game;
@@ -40,8 +42,10 @@ public class LogSelfPosition {
         logList = new ArrayList<LogData>();
         //CSVファイル出力クラスのインスタンスを生成する
 		csvWrite = new CsvWrite();
+		//ファイル名を生成する
+		fileName = "logSelfPos" + Body.logFileSuffix + ".csv";
 		//ログファイルが既に存在する場合は削除する
-		csvWrite.deleteCsvFile(LOG_FILE_NAME);
+		csvWrite.deleteCsvFile(fileName);
 
 		//ヘッダー文字列を設定する
 		String headerString = "X-Coord,Y-Coord,Accumulated-Angle,Accumulated-Distance,";
@@ -59,7 +63,7 @@ public class LogSelfPosition {
     public void run() {
 		//走行中の場合のみ、自己位置推定ログ出力処理を実行する
         if (game.getStatus() instanceof StateRun) {
-	    	draw();
+	    	//draw();
 	    	add();
 	    	write(false);
         }
@@ -105,10 +109,11 @@ public class LogSelfPosition {
 
     /**
      * ログを出力する
+	 * @param	init	初期化フラグ
      */
     public void write(boolean init) {
 		//CSVファイルに出力する
-		csvWrite.writeCsvFile(LOG_FILE_NAME, logList, true, init);
+		csvWrite.writeCsvFile(fileName, logList, true, init);
 		//ログリストをクリアする
 		logList.clear();
     }

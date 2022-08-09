@@ -3,20 +3,21 @@ package game.state;
 import game.Game;
 
 /**
- * ベーシックコース走行状態クラス
+ * ゲーム攻略状態クラス
  * デザインパターンのSingletonパターンを採用
- * @author 後藤　聡文
+ * @author 尾角　武俊
  *
  */
-public class StateRun extends State {
+public class StateConquest extends State {
+
     /** インスタンス */
-    private static StateRun instance = new StateRun();
+    private static StateConquest instance = new StateConquest();
 
     /**
      * コンストラクタ
      */
-    private StateRun() {
-        name = "Run";
+    private StateConquest() {
+        name = "Conquest";
     }
 
     /**
@@ -25,14 +26,14 @@ public class StateRun extends State {
      */
     @Override
     public void changeState(Game game) {
-        game.changeState(this, StateConquest.getInstance());
+        game.changeState(this, StateEnd.getInstance());
     }
 
     /**
      * インスタンスを取得する
      * @return インスタンス
      */
-    public static StateRun getInstance() {
+    public static StateConquest getInstance() {
         return instance;
     }
 

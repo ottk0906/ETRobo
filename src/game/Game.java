@@ -34,76 +34,9 @@ public class Game {
 	 */
 	public Game() {
 
-		//StateCalibrationWhite.getInstance().add(new GuardTouch(), new ActivityCalibrationWhite());
-		//StateCalibrationBlack.getInstance().add(new GuardTouch(), new ActivityCalibrationBlack());
-		//StateWaitStart.getInstance().add(new GuardTouch(), new ActivityRun(0, 0));
-		//StateRun.getInstance().add(new GuardTouch(), new ActivityRun(200, 0));
-
-		//StateRun.getInstance().add(new GuardTimer(2000), new ActivityRun(300, 0));
-		//StateRun.getInstance().add(new GuardTimer(3000), new ActivityRun(200, 0));
-		//StateRun.getInstance().add(new GuardArmThrow(30.0f), new ActivityArmThrow(50,300));
-		//StateRun.getInstance().add(new GuardTimer(3000), new ActivityRun(200, 0));
-		//StateRun.getInstance().add(new GuardTimer(0), new ActivityArm(0));
-		//StateRun.getInstance().add(new GuardTimer(3000), new ActivityRun(100, 0));
-
-		//StateRun.getInstance().add(new GuardColorHSV(2,3), new ActivityRun(100, 0));
-		//StateRun.getInstance().add(new GuardTouch(), new ActivityRun(0, 0));
-
-		/*
-		StateRun.getInstance().add(new GuardTouch(), new ActivityAcquisitionColor());
-		 */
-		//StateRun.getInstance().add(new GuardDegrees(30.0f, 1.0f), new ActivityArm(30.0f));
-		//StateRun.getInstance().add(new GuardTouch(), new ActivityRun(0, 0));
-		//StateRun.getInstance().add(new GuardDegrees(0.0f, 1.0f), new ActivityArm(0.0f));
-		//StateRun.getInstance().add(new GuardTouch(), new ActivityRun(0, 0));
-
-		/*
-		//---> Modify 2022/07/06 Harada
-		StateRun.getInstance().add(new GuardTouch(), new ActivityAcquisitionColor());
-		StateRun.getInstance().add(new GuardTouch(), new ActivityRun(0, 0));
-		//<--- Modify 2022/07/06 Harada
-
-		//---> Modify 2022/07/06 Harada
-		 *
-		StateRun.getInstance().add(new GuardTouch(), new ActivityRunPID(200, 0.0f, 1500f, 0.01f, 0.01f));
-		StateRun.getInstance().add(new GuardTouch(), new ActivityRun(0, 0));
-		//<--- Modify 2022/07/06 Harada
-
-		//---> Modify 2022/07/05 Komai
-		StateRun.getInstance().add(new GuardDegrees(30.0f, 1.0f), new ActivityArm(30.0f));
-		StateRun.getInstance().add(new GuardTouch(), new ActivityRun(0, 0));
-		StateRun.getInstance().add(new GuardDegrees(0.0f, 1.0f), new ActivityArm(0.0f));
-		StateRun.getInstance().add(new GuardTouch(), new ActivityRun(0, 0));
-		//<--- Modify 2022/07/05 Komai
-
-		//---> Modify 2022/06/22 T.Okado
-		//StateRun.getInstance().add(new GuardTouch(), new ActivityRunPID(200, 0.0f , 900f , 0.01f , 0.01f));
-		//StateRun.getInstance().add(new GuardTouch(), new ActivityTurnTest(200.0f , 45.0f));
-		//StateRun.getInstance().add(new GuardTouch(), new ActivityTurnTest(200.0f , -45.0f));
-		//StateRun.getInstance().add(new GuardTouch(), new ActivityTurnTest(200.0f , 0.0f));
-		//StateRun.getInstance().add(new GuardTouch(), new ActivityTurnTest(-200.0f , 0.0f));
-		//StateRun.getInstance().add(new GuardTouch(), new ActivityRunOnOff(200, 100.0f));
-		//<--- Modify 2022/06/22 T.Okado
-
-		//---> Add 2022/06/29 T.Okado
-		StateRun.getInstance().add(new GuardTurnStop(180.0), new ActivityTurnTest(0.0f, 200.0f));
-		StateRun.getInstance().add(new GuardDistanceStop(1000), new ActivityTurnTest(200.0f, 0.0f));
-		StateRun.getInstance().add(new GuardTurnStop(180.0), new ActivityTurnTest(0.0f, -200.0f));
-		StateRun.getInstance().add(new GuardDistanceStop(1500), new ActivityTurnTest(200.0f, 0.0f));
-
-		//StateRun.getInstance().add(new GuardDistanceStop(1000), new ActivityRunPID(200, 0.0f , 1500f , 0.01f , 0.01f));
-		//StateRun.getInstance().add(new GuardDistanceStop(), new ActivityRunOnOff(200, 100.0f));
-		//StateRun.getInstance().add(new GuardDistanceStop(), new ActivityTurnTest(200.0f , 0.0f));
-		//<--- Add 2022/06/29 T.Okado
-
-		//StateEnd.getInstance().add(new GuardTouch(), new ActivityRun(0, 0));
-*/
-
 		ScenarioMake Scenario = new ScenarioMake();
 		Scenario.makeScenarioList(INIT_SCENARIO_LIST_FILE);
 		Scenario.makeMoveStatus();
-
-		//StateEnd.getInstance().add(new GuardTouch(), new ActivityRun(0, 0));
 
 		changeState(null, StateCalibrationWhite.getInstance());
 	}
