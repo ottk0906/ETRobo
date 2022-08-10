@@ -2,6 +2,7 @@ package body.control;
 
 import body.Body;
 import game.Game;
+import game.state.StateConquest;
 import game.state.StateRun;
 
 /**
@@ -56,8 +57,8 @@ public class Control {
 		controlArm.setArmMode(this.armMode);
 
 		controlWheel.run();
-		//走行中の場合のみ、
-        if (game.getStatus() instanceof StateRun) {
+		//「ベーシックコース走行状態」、「ゲーム攻略状態」の場合、
+        if (game.getStatus() instanceof StateRun | game.getStatus() instanceof StateConquest) {
 			controlArm.run();
         }
 	}

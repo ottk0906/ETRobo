@@ -8,32 +8,9 @@ import body.measure.Measure.Color;
  * @author 原田　寛大
  */
 public class MeasureCourseHue {
-	/**色相：0.0f~360.0f*/
-	private float hue;
 
 	/** 色判定結果 黒,白,赤,黄,緑,青,その他 のいずれか */
 	private Color color;
-
-	/**
-	 * 色相を設定する
-	 */
-	public void setHue(float hue) {
-		if (hue >= 0.0f && hue <= 360.0f) {
-			this.hue = hue;
-		} else if (hue < 0.0f) {
-			this.hue = hue + 360.0f;
-		} else if (hue > 360.0f) {
-			this.hue = hue - 360.0f;
-		}
-	}
-
-	/**
-	 * 色相を取得する
-	 * @return hue : 色相
-	 */
-	public float getHue() {
-		return hue;
-	}
 
 	/**
 	 * 色判定結果を設定する

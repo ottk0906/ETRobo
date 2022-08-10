@@ -8,15 +8,23 @@ import body.measure.Measure.Color;
  * @author 原田　寛大
  */
 public class MeasureCourseHSL extends MeasureCourseHue {
-	/** sv（彩度:Saturation、明度:lightness）*/
-	private float saturation, lightness;
+	/** hsl（色相:Hue、彩度:Saturation、明度:Lightness）*/
+	private float[] hsl = new float[3];
+
+	/**
+	 * 色相を取得する
+	 * @return hsl[0] 色相
+	 */
+	public float getHue() {
+		return hsl[0];
+	}
 
 	/**
 	 * 彩度を取得する
-	 * @return
+	 * @return hsl[1] 彩度
 	 */
 	public float getSaturation() {
-		return saturation;
+		return hsl[1];
 	}
 
 	/**
@@ -24,7 +32,7 @@ public class MeasureCourseHSL extends MeasureCourseHue {
 	 * @return
 	 */
 	public float getLightness() {
-		return lightness;
+		return hsl[2];
 	}
 
 	/**
@@ -40,27 +48,27 @@ public class MeasureCourseHSL extends MeasureCourseHue {
 	 * 色判定結果を設定する
 	 */
 	public void judgeColor() {
-		if (saturation <= 0.3f) {
-			if (lightness < Body.measure.getTarget()) {
+		if (hsl[1] <= 0.3f) {
+			if (hsl[2] < Body.measure.getTarget()) {
 				setColor(Color.Black);
 			} else {
 				setColor(Color.White);
 			}
-		} else if (saturation <= 0.5f) {
-			if (lightness < Body.measure.measureCourse.getSat50BlackJudgeValueToHSL()) {
+		} else if (hsl[1] <= 0.5f) {
+			if (hsl[2] < Body.measure.measureCourse.getSat50BlackJudgeValueToHSL()) {
 				setColor(Color.Black);
-			} else if (lightness > Body.measure.measureCourse.getSat50WhiteJudgeValueToHSL()) {
+			} else if (hsl[2] > Body.measure.measureCourse.getSat50WhiteJudgeValueToHSL()) {
 				setColor(Color.White);
 			} else {
-				setColor(judgeColorHue(getHue()));
+				setColor(judgeColorHue(hsl[0]));
 			}
 		} else {
-			if (lightness < Body.measure.measureCourse.getSat100BlackJudgeValueToHSL()) {
+			if (hsl[2] < Body.measure.measureCourse.getSat100BlackJudgeValueToHSL()) {
 				setColor(Color.Black);
-			} else if (lightness > Body.measure.measureCourse.getSat100WhiteJudgeValueToHSL()) {
+			} else if (hsl[2] > Body.measure.measureCourse.getSat100WhiteJudgeValueToHSL()) {
 				setColor(Color.White);
 			} else {
-				setColor(judgeColorHue(getHue()));
+				setColor(judgeColorHue(hsl[0]));
 			}
 		}
 	}
@@ -111,38 +119,34 @@ public class MeasureCourseHSL extends MeasureCourseHue {
 			}
 		}
 
-		//色相設定用変数
-		float hue;
-
 		// rgbからhsvへ変換
 		if (max == min) {
-			hue = -1.0f;
+			hsl[0] = -1.0f;
 		} else {
 			/* h設定部分 */
 			if (max == r) {
-				hue = (g - b) / (max - min) * 60.0f;
+				hsl[0] = (g - b) / (max - min) * 60.0f;
 			} else if (max == g) {
-				hue = (b - r) / (max - min) * 60.0f + 120.0f;
+				hsl[0] = (b - r) / (max - min) * 60.0f + 120.0f;
 			} else {
-				hue = (r - g) / (max - min) * 60.0f + 240.0f;
+				hsl[0] = (r - g) / (max - min) * 60.0f + 240.0f;
 			}
-			if (hue < 0.0f) {
-				hue += 360.0f;
-			} else if (hue > 360.0f) {
-				hue -= 360.0f;
+			if (hsl[0] < 0.0f) {
+				hsl[0] += 360.0f;
+			} else if (hsl[0] > 360.0f) {
+				hsl[0] -= 360.0f;
 			}
 		}
-		setHue(hue);
 
 		/* s設定部分*/
 		//収束値:cnt
 		cnt = (max + min) / 2.0f;
 		if (cnt <= (1.0f / 2.0f)) {
-			saturation = (cnt - min) / cnt;
+			hsl[1] = (cnt - min) / cnt;
 		} else {
-			saturation = (max - cnt) / (1.0f - cnt);
+			hsl[1] = (max - cnt) / (1.0f - cnt);
 		}
 		/*l設定部分*/
-		lightness = (max + min) / 2;
+		hsl[2] = (max + min) / 2;
 	}
 }

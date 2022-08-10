@@ -1,6 +1,7 @@
 package game.SelfPosition;
 
 import game.Game;
+import game.state.StateConquest;
 import game.state.StateRun;
 
 /**
@@ -26,8 +27,9 @@ public final class SelfPosition {
      * 実施する
      */
 	public void run() {
-		//走行中の場合のみ、自己位置推定を実行する
-        if (game.getStatus() instanceof StateRun) {
+
+		//「ベーシックコース走行状態」、「ゲーム攻略状態」の場合、自己位置推定を実行する
+        if (game.getStatus() instanceof StateRun | game.getStatus() instanceof StateConquest) {
         	//自己位置更新処理を呼び出す
         	calcSelfPos.update();
 		}

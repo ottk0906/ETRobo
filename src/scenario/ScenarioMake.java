@@ -57,7 +57,7 @@ public class ScenarioMake {
 
 		//シナリオリストファイルを読み込む
 		CsvRead CsvRead = new CsvRead();
-		scenarioList = CsvRead.readScenarioFile(file);
+		scenarioList = CsvRead.readScenarioFile(file, false);
 	}
 
 	/**

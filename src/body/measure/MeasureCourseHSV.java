@@ -8,23 +8,31 @@ import body.measure.Measure.Color;
  * @author 原田　寛大
  */
 public class MeasureCourseHSV extends MeasureCourseHue {
-	/** sv（彩度:Saturation、明度:Value）*/
-	private float saturation, value;
+	/** hsv（彩度:Saturation、明度:Value）*/
+	private float[] hsv = new float[3];
+
+	/**
+	 * 色相を取得する
+	 * @return hsv[0] 色相
+	 */
+	public float getHue() {
+		return hsv[0];
+	}
 
 	/**
 	 * 彩度を取得する
-	 * @return saturation 彩度
+	 * @return hsv[1] 彩度
 	 */
 	float getSaturation() {
-		return saturation;
+		return hsv[1];
 	}
 
 	/**
 	 * 明度を取得する
-	 * @return value 輝度
+	 * @return hsv[2] 輝度
 	 */
 	float getValue() {
-		return value;
+		return hsv[2];
 	}
 
 	public void update() {
@@ -36,12 +44,12 @@ public class MeasureCourseHSV extends MeasureCourseHue {
 	 * 色判定結果を設定する
 	 */
 	public void judgeColor() {
-		if (value <= Body.measure.measureCourse.getLimitSatBlackHSV()) {
+		if (hsv[2] <= Body.measure.measureCourse.getLimitSatBlackHSV()) {
 			setColor(Color.Black);
-		} else if (saturation < Body.measure.measureCourse.getLimitSatWhiteHSV()) {
+		} else if (hsv[1] < Body.measure.measureCourse.getLimitSatWhiteHSV()) {
 			setColor(Color.White);
 		} else {
-			setColor(judgeColorHue(getHue()));
+			setColor(judgeColorHue(hsv[0]));
 		}
 	}
 
@@ -86,34 +94,30 @@ public class MeasureCourseHSV extends MeasureCourseHue {
 			}
 		}
 
-		//色相設定用変数
-		float hue;
-
 		// rgbからhsvへ変換
 		if (max == min) {
-			hue = -1.0f;
+			hsv[0] = -1.0f;
 			if (max == 0) {
-				saturation = -1.0f;
+				hsv[1] = -1.0f;
 			}
 		} else {
 			/* h設定部分 */
 			if (max == r) {
-				hue = (g - b) / (max - min) * 60.0f;
+				hsv[0] = (g - b) / (max - min) * 60.0f;
 			} else if (max == g) {
-				hue = (b - r) / (max - min) * 60.0f + 120.0f;
+				hsv[0] = (b - r) / (max - min) * 60.0f + 120.0f;
 			} else {
-				hue = (r - g) / (max - min) * 60.0f + 240.0f;
+				hsv[0] = (r - g) / (max - min) * 60.0f + 240.0f;
 			}
-			if (hue < 0.0f) {
-				hue = hue + 360.0f;
-			} else if (hue > 360.0f) {
-				hue = hue - 360.0f;
+			if (hsv[0] < 0.0f) {
+				hsv[0] = hsv[0] + 360.0f;
+			} else if (hsv[0] > 360.0f) {
+				hsv[0] = hsv[0] - 360.0f;
 			}
-			setHue(hue);
 
 			/* s設定部分 */
-			saturation = (max - min) / max;
+			hsv[1] = (max - min) / max;
 		}
-		value = max;
+		hsv[2] = max;
 	}
 }

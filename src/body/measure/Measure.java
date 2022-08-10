@@ -259,7 +259,6 @@ public class Measure {
 	 * @return hue
 	 */
 	public float getHueHSL() {
-		//		return measureCourseHSL.getHue();
 		return measureCourse.getMeasureCourseHSL().getHue();
 	}
 

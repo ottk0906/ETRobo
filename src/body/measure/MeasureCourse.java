@@ -51,8 +51,6 @@ public class MeasureCourse {
 	private float target;
 	/** 路面RGB（赤、緑、青） */
 	private float rgb[];
-	/** 路面HSV（色相、彩度、明度） */
-	private float hsv[];
 
 	/**
 	 * コンストラクタ
@@ -62,7 +60,6 @@ public class MeasureCourse {
 		this.colorSensor = colorSensor;
 		sensorMode = colorSensor.getRGBMode();
 		rgb = new float[sensorMode.sampleSize()];
-		hsv = new float[3];
 
 		whiteRGB = new float[3];
 		blackRGB = new float[3];
@@ -85,9 +82,7 @@ public class MeasureCourse {
 		//RGBに補正をかける
 		ajustRGB();
 
-		// RGBをHSVに変換する
-		convertRGBtoHSV(rgb);
-
+		// RGBをHSV、HSLに変換し、それぞれで色を判定する
 		measureCourseHSL.update();
 		measureCourseHSV.update();
 	}
@@ -152,21 +147,16 @@ public class MeasureCourse {
 	 * 路面色相を取得する
 	 * @return　路面色相
 	 */
-	public float getHue(){
-	    return hsv[0];
-
-	    //return measureCourseHSL.getHue();
-
+	public float getHue() {
+		return measureCourseHSL.getHue();
 	}
 
 	/**
 	 * 路面彩度を取得する
 	 * @return　路面彩度
 	 */
-	public float getSaturation(){
-	    return hsv[1];
-
-	    //return measureCourseHSL.getSaturation();
+	public float getSaturation() {
+		return measureCourseHSL.getSaturation();
 	}
 
 	/**
@@ -174,66 +164,15 @@ public class MeasureCourse {
 	 * @return　路面明度
 	 */
 	public float getValue() {
-		return hsv[2];
-	    //return measureCourseHSL.getValue();
+		return measureCourseHSL.getLightness();
 	}
 
 	/**
-     * RGB値を取得する
-     * @return rgb (Red,Green,Blue)
-     */
-    float[] getRGB() {
-    	return rgb;
-    }
-
-	/**
-	 * RGBをHSVに変換する
+	 * RGB値を取得する
+	 * @return rgb (Red,Green,Blue)
 	 */
-	private void convertRGBtoHSV(float[] rgb) {
-		// rgb（赤:Red、緑:Green、青:Blue）
-		float r = rgb[0];
-		float g = rgb[1];
-		float b = rgb[2];
-
-		// hsv（色相:Hue、彩度:Saturation、明度:Value）
-		float h, s, v;
-
-		// rgbの最大値
-		float max = (r > g) ? r : g;
-		if (b > max)
-			max = b;
-
-		// rgbの最小値
-		float min = (r < g) ? r : g;
-		if (b < min)
-			min = b;
-
-		// rgbからhsvへ変換
-		if (max == min) {
-			h = -1.0f; // 未定義
-		} else {
-			if (max == r) {
-				h = (g - b) / (max - min) * 60.0f;
-			} else if (max == g) {
-				h = (b - r) / (max - min) * 60.0f + 120.0f;
-			} else {
-				h = (r - g) / (max - min) * 60.0f + 240.0f;
-			}
-			if (h < 0.0f)
-				h = h + 360.0f;
-			if (h > 360.0f)
-				h = h - 360.0f;
-		}
-		if (max != 0.0f) {
-			s = (max - min) / max;
-		} else {
-			s = -1.0f; // 未定義
-		}
-		v = max;
-
-		hsv[0] = h;
-		hsv[1] = s;
-		hsv[2] = v;
+	float[] getRGB() {
+		return rgb;
 	}
 
 	//************* 色判定閾値設定のsetter() *************
@@ -438,7 +377,7 @@ public class MeasureCourse {
 	/**
 	 * RGBの数値に補正をかける
 	 * その数値が0～1内なら今回の数値を、
-	 * 0～1外なら前回の0～1内の数値を使用する
+	 * 0より小さいなら0を、1より大きいなら1を設定する
 	 */
 	public void ajustRGB() {
 		//赤を0～1の数値に変換する

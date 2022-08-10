@@ -19,8 +19,9 @@ public class CsvRead {
 	 * シナリオファイルを読み込む
 	 * @param	fileNme				ファイル名
 	 * @return List<ScenarioData>	シナリオデータリスト
+	 * @return init				命令セット呼出フラグ
 	 */
-	public List<ScenarioData> readScenarioFile(String fileNme) {
+	public List<ScenarioData> readScenarioFile(String fileNme, boolean instructionSetFlg) {
 
 		List<ScenarioData> ScenarioList = new ArrayList<ScenarioData>();
 		List<String> csvDataArr = new ArrayList<String>();
@@ -36,6 +37,9 @@ public class CsvRead {
 		final int GUARD_LOGIC_OPE_ROW = 15;			//遷移条件論理演算子の位置
 		final int GUARD_DETAIL_NUM_ROW = 16;		//遷移条件パラメータ数の位置
 
+		final String ACT_NO_INSTRUCTION_SET = "7";	//命令セットの動作番号
+		final int SCENE_NO_ADD_VALUE = 1000;		//命令セットでのシーン番号にインクリメントする値
+
 		List<Double> actValue;		//動作のパラメータ
 		List<Double> gdValue;		//遷移条件のパラメータ
 
@@ -44,35 +48,62 @@ public class CsvRead {
 			//1行分のデータをカンマで区切って、各項目のデータを配列にセットする
 			String[] tmpData = tmpLine.split(",");
 
-			//シナリオデータのインスタンスを生成する
-			ScenarioData tmpSnData = new ScenarioData();
+			//命令セットの場合
+			if(tmpData[ACT_NO_ROW].equals(ACT_NO_INSTRUCTION_SET)) {
 
-			//シーン番号
-			tmpSnData.setSceneNo(Integer.parseInt(tmpData[SCENE_NO_ROW]));
-			//状態番号
-			tmpSnData.setStateNo(Integer.parseInt(tmpData[STATE_NO_ROW]));
-			//動作番号
-			tmpSnData.setActNo(Integer.parseInt(tmpData[ACT_NO_ROW]));
-			//動作のパラメータ
-			actValue = new ArrayList<Double>();
-			for(int i = 1; i <= Integer.parseInt(tmpData[ACT_DETAIL_NUM_ROW]); i++ ) {
-				actValue.add(Double.parseDouble(tmpData[ACT_DETAIL_NUM_ROW + i]));
-			}
-			tmpSnData.setActValue(actValue);
-			//遷移条件番号
-			tmpSnData.setGdNo(Integer.parseInt(tmpData[GUARD_NO_ROW]));
-			//遷移条件論理演算子
-			tmpSnData.setGdLogicalOperator(Integer.parseInt(tmpData[GUARD_LOGIC_OPE_ROW]));
-			//遷移条件パラメータ
-			gdValue = new ArrayList<Double>();
-			for(int i = 1; i <= Integer.parseInt(tmpData[GUARD_DETAIL_NUM_ROW]); i++ ) {
-				gdValue.add(Double.parseDouble(tmpData[GUARD_DETAIL_NUM_ROW + i]));
-			}
-			tmpSnData.setGdValue(gdValue);
+				//シナリオリストを初期化する
+				List<ScenarioData> tmpSnList = new ArrayList<ScenarioData>();
+				//動作パラメータ1の値（命令セットの対象ファイル名）を取得し、自分自信を再帰的に呼び出す
+				tmpSnList = readScenarioFile(tmpData[ACT_DETAIL_NUM_ROW + 1] , true);
 
-			//シナリオリストにシナリオデータを追加する
-			ScenarioList.add(tmpSnData);
+				//シナリオリストにシナリオデータを追加する
+				for(ScenarioData snData : tmpSnList) {
+					ScenarioList.add(snData);
+				}
+
+			} else {
+
+				//シナリオデータのインスタンスを生成する
+				ScenarioData tmpSnData = new ScenarioData();
+
+				//シーン番号
+				//通常のシナリオファイル読み込みの場合
+				if(!instructionSetFlg) {
+					tmpSnData.setSceneNo(Integer.parseInt(tmpData[SCENE_NO_ROW]));
+				//命令セットでのファイル読み込みの場合
+				} else {
+					//シーン番号に定数値を付加して、シーン番号の競合を防止する
+					tmpSnData.setSceneNo(Integer.parseInt(tmpData[SCENE_NO_ROW]) + SCENE_NO_ADD_VALUE);
+				}
+
+				//状態番号
+				tmpSnData.setStateNo(Integer.parseInt(tmpData[STATE_NO_ROW]));
+				//動作番号
+				tmpSnData.setActNo(Integer.parseInt(tmpData[ACT_NO_ROW]));
+				//動作のパラメータ
+				actValue = new ArrayList<Double>();
+				for(int i = 1; i <= Integer.parseInt(tmpData[ACT_DETAIL_NUM_ROW]); i++ ) {
+					actValue.add(Double.parseDouble(tmpData[ACT_DETAIL_NUM_ROW + i]));
+				}
+				tmpSnData.setActValue(actValue);
+				//遷移条件番号
+				tmpSnData.setGdNo(Integer.parseInt(tmpData[GUARD_NO_ROW]));
+				//遷移条件論理演算子
+				tmpSnData.setGdLogicalOperator(Integer.parseInt(tmpData[GUARD_LOGIC_OPE_ROW]));
+				//遷移条件パラメータ
+				gdValue = new ArrayList<Double>();
+				for(int i = 1; i <= Integer.parseInt(tmpData[GUARD_DETAIL_NUM_ROW]); i++ ) {
+					gdValue.add(Double.parseDouble(tmpData[GUARD_DETAIL_NUM_ROW + i]));
+				}
+				tmpSnData.setGdValue(gdValue);
+
+				//シナリオリストにシナリオデータを追加する
+				ScenarioList.add(tmpSnData);
+			}
 		}
+
+		//ログ出力
+		//write(ScenarioList);
 
 		return ScenarioList;
 
@@ -127,5 +158,39 @@ public class CsvRead {
 		return retList;
 
 	}
+
+/*
+    //---> Add 2022/08/10 T.Okado Debug用
+	public void write(List<ScenarioData> snData) {
+        try {
+
+        	File file = new File("CsvRead.csv");
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            StringBuilder sb = new StringBuilder();
+            for(ScenarioData data : snData) {
+	            sb.append(data.getSceneNo()).append(",");
+	            sb.append(data.getStateNo()).append(",");
+	            sb.append(data.getActNo()).append(",");
+	            for(Double tmp1 : data.getActValue()) {
+		            sb.append(tmp1).append(",");
+	            }
+	            sb.append(data.getGdNo()).append(",");
+	            sb.append(data.getGdLogicalOperator());
+	            for(Double tmp2 : data.getGdValue()) {
+		            sb.append(",").append(tmp2);
+	            }
+	            sb.append("\r\n");
+        	}
+            bw.write(sb.toString());
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    //<--- Add 2022/08/10 T.Okado
+*/
 
 }

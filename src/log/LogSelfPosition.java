@@ -7,6 +7,7 @@ import body.Body;
 import fileIO.CsvWrite;
 import game.Game;
 import game.SelfPosition.SelfPosition;
+import game.state.StateConquest;
 import game.state.StateRun;
 import lejos.hardware.lcd.LCD;
 
@@ -61,8 +62,8 @@ public class LogSelfPosition {
      * 実行する
      */
     public void run() {
-		//走行中の場合のみ、自己位置推定ログ出力処理を実行する
-        if (game.getStatus() instanceof StateRun) {
+		//「ベーシックコース走行状態」、「ゲーム攻略状態」の場合、自己位置推定ログ出力処理を実行する
+        if (game.getStatus() instanceof StateRun | game.getStatus() instanceof StateConquest) {
 	    	//draw();
 	    	add();
 	    	write(false);
