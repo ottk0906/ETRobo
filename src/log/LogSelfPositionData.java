@@ -6,6 +6,7 @@ package log;
  */
 public class LogSelfPositionData extends LogData {
 
+	private String statusName;			//競技状態名
 	private double currentX;			//移動後のX座標（計算後の自己位置）
 	private double currentY;			//移動後のY座標（計算後の自己位置）
 	private double currentAngle;		//移動後の回転角度
@@ -22,6 +23,7 @@ public class LogSelfPositionData extends LogData {
 
     /**
      * コンストラクタ
+     * @param status			競技状態名
      * @param currentX			X座標
      * @param currentY			Y座標
      * @param currentAngle		回転角度
@@ -36,11 +38,12 @@ public class LogSelfPositionData extends LogData {
      * @param beforeAngleR		右車輪の回転角度過去値
      * @param elapsedTime		経過時間(走行体起動時からの経過時間(ms))
      */
-	public LogSelfPositionData(double currentX, double currentY, double currentAngle,
+	public LogSelfPositionData(String statusName,double currentX, double currentY, double currentAngle,
 								double accumDistance, double odometryX, double odometryY,
 								double odometryAngle, double distanceL, double distanceR,
 								double distance, double beforeAngleL, double beforeAngleR, int elapsedTime) {
 
+		this.statusName = statusName;
 		this.currentX = currentX;
 		this.currentY = currentY;
 		this.currentAngle = currentAngle;
@@ -63,6 +66,7 @@ public class LogSelfPositionData extends LogData {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append(statusName).append(",");
         sb.append(currentX).append(",");
         sb.append(currentY).append(",");
         sb.append(currentAngle).append(",");

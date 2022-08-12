@@ -190,7 +190,8 @@ public class ScenarioMake {
 					actValue.get(1).floatValue(),
 					actValue.get(2).floatValue(),
 					actValue.get(3).floatValue(),
-					actValue.get(4).floatValue()
+					actValue.get(4).floatValue(),
+					actValue.get(5).intValue()
 				);
 				break;
 			//OnOff走行

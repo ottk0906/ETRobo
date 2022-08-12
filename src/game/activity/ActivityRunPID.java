@@ -20,13 +20,20 @@ public class ActivityRunPID extends ActivityRun {
 	private final float KI;
 	/** 微分係数 */
 	private final float KD;
+	/** ライン走行のエッジ */
+	private int edge;
+	/** ライン走行のエッジ指定 */
+	private final int RIGHT_EDGE = 0;
+	private final int LEFT_EDGE = 1;
 
-	public ActivityRunPID(float forward, float turn, float KP, float KI, float KD) {
+
+	public ActivityRunPID(float forward, float turn, float KP, float KI, float KD, int edge) {
 		super(forward, turn);
 
 		this.KP = KP;
 		this.KI = KI;
 		this.KD = KD;
+		this.edge = edge;
 	}
 
 	/**
@@ -53,6 +60,11 @@ public class ActivityRunPID extends ActivityRun {
 		d = KD * (kago[1] - kago[0]) / DELTA_T;
 
 		turn = p + i + d;
+
+		//デフォルトは右エッジの走行のため、左エッジの場合は、turn値を反転する
+		if(edge == LEFT_EDGE) {
+			turn = turn * -1.0f;
+		}
 
 		// 速度を設定する
 		Body.control.setForward(forward);

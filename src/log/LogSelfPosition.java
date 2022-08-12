@@ -49,7 +49,7 @@ public class LogSelfPosition {
 		csvWrite.deleteCsvFile(fileName);
 
 		//ヘッダー文字列を設定する
-		String headerString = "X-Coord,Y-Coord,Accumulated-Angle,Accumulated-Distance,";
+		String headerString = "Stutas,X-Coord,Y-Coord,Accumulated-Angle,Accumulated-Distance,";
 		headerString = headerString + "Odometry-X,Odometry-Y,Odometry-Angle,";
 		headerString = headerString + "LeftWheel-Distance,RigjtWheel-Distance,Distance,";
 		headerString = headerString + "LeftWheel-Angle-Past,RightWheel-Angle-Past,elapsedTime";
@@ -76,6 +76,7 @@ public class LogSelfPosition {
     private void add() {
     	//自己位置推定ログデータクラスのインスタンスを生成し、ログリストに追加する
 		LogData data = new LogSelfPositionData(
+			game.toString(),
     		selfPos.getXCoord(),
     		selfPos.getYCoord(),
     		selfPos.getAfterRadianToAngle(),
