@@ -17,17 +17,17 @@ public class CsvRead {
 
 	/**
 	 * シナリオファイルを読み込む
-	 * @param	fileNme				ファイル名
+	 * @param	fileName			ファイル名
+	 * @param init					命令セット呼出フラグ
 	 * @return List<ScenarioData>	シナリオデータリスト
-	 * @return init				命令セット呼出フラグ
 	 */
-	public List<ScenarioData> readScenarioFile(String fileNme, boolean instructionSetFlg) {
+	public List<ScenarioData> readScenarioFile(String fileName, boolean instructionSetFlg) {
 
 		List<ScenarioData> ScenarioList = new ArrayList<ScenarioData>();
 		List<String> csvDataArr = new ArrayList<String>();
 
 		//CSVファイルを読み込む
-		csvDataArr = readCsvFile(fileNme);
+		csvDataArr = readCsvFile(fileName);
 
 		final int SCENE_NO_ROW = 0;					//シーン番号の位置
 		final int STATE_NO_ROW = 1;					//状態番号の位置
@@ -102,8 +102,9 @@ public class CsvRead {
 			}
 		}
 
-		//ログ出力
+	    //---> Add 2022/08/10 T.Okado Debug用
 		//write(ScenarioList);
+	    //<--- Add 2022/08/10 T.Okado
 
 		return ScenarioList;
 
@@ -114,7 +115,7 @@ public class CsvRead {
 	 * @param	fileName		ファイル名
 	 * @return	List<String> 	CSVデータリスト（1行分のデータを格納）
 	 */
-	public List<String> readCsvFile(String fileNme) {
+	public List<String> readCsvFile(String fileName) {
 
 		File file = null;
 		FileReader fr = null;
@@ -123,7 +124,7 @@ public class CsvRead {
 		List<String> retList = new ArrayList<String>();
 
 		try {
-			file = new File(fileNme);
+			file = new File(fileName);
 			fr = new FileReader(file);
 			br = new BufferedReader(fr);
 
@@ -159,13 +160,39 @@ public class CsvRead {
 
 	}
 
+	/**
+	 * CSVファイル存在チェック
+	 * @param	fileName	ファイル名
+	 * @return	boolean 	ファイル存在チェック結果(True:存在する / False：存在しない)
+	 */
+	public boolean isFileExists(String fileName){
+		File file = new File(fileName);
+		return file.exists();
+	}
+
+	/**
+	 * CSVファイルをリネームする
+	 * @param	src		リネーム前のファイル名
+	 * @param	des		リネーム後のファイル名
+	 * @return	boolean リネーム結果(True:リネーム成功 / False：リネーム失敗)
+	 */
+	public boolean renameCsvFile(String src, String des) {
+		File file1 = new File(src);
+        File file2 = new File(des);
+        //リネーム後のファイルが既に存在する場合は削除する
+        if (file2.exists()) file2.delete();
+        //ファイルをリネームする
+        boolean success = file1.renameTo(file2);
+        return success;
+	}
+
 /*
     //---> Add 2022/08/10 T.Okado Debug用
 	public void write(List<ScenarioData> snData) {
         try {
 
         	File file = new File("CsvRead.csv");
-            FileWriter fw = new FileWriter(file);
+            FileWriter fw = new FileWriter(file,true);
             BufferedWriter bw = new BufferedWriter(fw);
 
             StringBuilder sb = new StringBuilder();

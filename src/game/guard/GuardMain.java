@@ -152,6 +152,10 @@ public class GuardMain extends Guard {
 									gdValue.get(4).doubleValue()
 								);
 				break;
+			//ゲーム攻略準備完了判定
+			case 9:
+				tmpGuard = new GuardGameReady();
+				break;
 		}
 
 		return tmpGuard;

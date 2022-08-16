@@ -20,23 +20,27 @@ import log.LogSelfPosition;
  */
 public class TaskManager {
 
-    // 競技タスク
+    //競技タスク
     private GameTask gameTask;
 
     private Game game;
 
-    // ログタスク
+    //ログタスク
     private LogTask logTask;
 
     private Log log;
 
-    // 自己位置推定ログクラス
+    //自己位置推定ログクラス
     private LogSelfPosition logSelfPos;
+
+    //走行パラメータファイル取得タスク
+    private ScenarioTask scenarioTask;
 
     // スケジューラ
     private ScheduledExecutorService scheduler;
     private ScheduledFuture<?> futureGame;
     private ScheduledFuture<?> futureLog;
+    private ScheduledFuture<?> futureScenarioFileMgt;
     private CountDownLatch countDownLatch;
 
     /**
@@ -47,7 +51,7 @@ public class TaskManager {
         LCD.drawString("Initialize", 0, 0);
 
         // スケジューラ生成
-        scheduler = Executors.newScheduledThreadPool(2);
+        scheduler = Executors.newScheduledThreadPool(3);
         countDownLatch = new CountDownLatch(1);
 
 		//ログファイルのサフィックス値を取得する
@@ -66,15 +70,22 @@ public class TaskManager {
 		// 自己位置推定ログのインスタンス生成
 		logSelfPos = new LogSelfPosition(game, Body.selfPos);
 
-        gameTask = new GameTask(countDownLatch, Body.measure, game, Body.control, Body.selfPos);
+		//走行パラメータファイル追加管理インスタンスにgemeクラスのインスタンスを設定する
+        Body.paraFileMgt.setGameInstance(game);
 
+		//競技タスク
+        gameTask = new GameTask(countDownLatch, Body.measure, game, Body.control, Body.selfPos);
         gameTask.setPriority(Thread.MAX_PRIORITY);
 
+        //走行パラメータファイル追加管理
+        scenarioTask = new ScenarioTask(Body.paraFileMgt);
+        scenarioTask.setPriority(Thread.NORM_PRIORITY);
+
+        //ログタスク
         logTask = new LogTask(log, logSelfPos);
+        logTask.setPriority(Thread.MIN_PRIORITY);
 
-        logTask.setPriority(Thread.NORM_PRIORITY);
-
-        // 初期化完了
+        //初期化完了
         Beep.ring();
     }
 
@@ -83,7 +94,8 @@ public class TaskManager {
      */
     public void schedule(){
         futureGame = scheduler.scheduleAtFixedRate(gameTask, 0, 10, TimeUnit.MILLISECONDS);
-        futureLog = scheduler.scheduleAtFixedRate(logTask, 0, 50, TimeUnit.MILLISECONDS);
+        futureScenarioFileMgt = scheduler.scheduleAtFixedRate(scenarioTask, 0, 500, TimeUnit.MILLISECONDS);
+        futureLog = scheduler.scheduleAtFixedRate(logTask, 0, 500, TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -104,9 +116,15 @@ public class TaskManager {
         if(futureLog != null){
             futureLog.cancel(true);
         }
+
+        if(futureScenarioFileMgt != null){
+        	futureScenarioFileMgt.cancel(true);
+        }
+
         if(futureGame != null){
             futureGame.cancel(true);
         }
+
         scheduler.shutdownNow();
     }
 }

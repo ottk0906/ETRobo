@@ -7,8 +7,10 @@ import fileIO.CsvRead;
 import game.activity.Activity;
 import game.activity.ActivityArm;
 import game.activity.ActivityArmThrow;
+import game.activity.ActivityBaseFinish;
 import game.activity.ActivityCalibrationBlack;
 import game.activity.ActivityCalibrationWhite;
+import game.activity.ActivityGameStartWait;
 import game.activity.ActivityRun;
 import game.activity.ActivityRunOnOff;
 import game.activity.ActivityRunPID;
@@ -56,8 +58,8 @@ public class ScenarioMake {
 		scenarioList = new ArrayList<ScenarioData>();
 
 		//シナリオリストファイルを読み込む
-		CsvRead CsvRead = new CsvRead();
-		scenarioList = CsvRead.readScenarioFile(file, false);
+		CsvRead csvRead = new CsvRead();
+		scenarioList = csvRead.readScenarioFile(file, false);
 	}
 
 	/**
@@ -70,10 +72,13 @@ public class ScenarioMake {
 
 		//tmpシナリオリストに最初のシナリオデータを登録する
 		tmpSnList.add(scenarioList.get(0));
-
+/*
+	    //---> Add 2022/07/13 T.Okado Debug用
+		int debugCnt = 1;
+	    //<--- Add 2022/07/13 T.Okado
+*/
 		//2つ目のシナリオデータからループを開始する
 		for(int iLoop = 1 ;iLoop < scenarioList.size(); iLoop++){
-			//write(1,snData.getSceneNo(),snData.getStateNo(),snData.getActNo(),snData.getGdNo());
 
 			//シーン番号が変わった場合に、tmpシナリオリストの情報を競技状態を追加する
 			if(tmpSnList.get(0).getSceneNo() !=  scenarioList.get(iLoop).getSceneNo()) {
@@ -82,25 +87,22 @@ public class ScenarioMake {
 						getActivity(tmpSnList.get(0).getActNo(),tmpSnList.get(0).getActValue())
 				);
 /*
+			    //---> Add 2022/07/13 T.Okado Debug用
 				for(int j = 0; j < tmpSnList.size(); j++ ) {
-					write(2,tmpSnList.get(j).getSceneNo(),
+					write(debugCnt,tmpSnList.get(j).getSceneNo(),
 							tmpSnList.get(j).getStateNo(),
 							tmpSnList.get(j).getActNo() ,
 							tmpSnList.get(j).getGdNo() );
 
 				}
+				debugCnt = debugCnt + 1;
+			    //<--- Add 2022/07/13 T.Okado
 */
 				//tmpシナリオリストを初期化する
 				tmpSnList = new ArrayList<ScenarioData>();
 			}
 			//tmpシナリオリストにシナリオデータを追加する
 			tmpSnList.add(scenarioList.get(iLoop));
-/*
-			write(1,tmpSnList.get(tmpSnList.size() - 1).getSceneNo(),
-					tmpSnList.get(tmpSnList.size() - 1).getStateNo(),
-					tmpSnList.get(tmpSnList.size() - 1).getActNo() ,
-					tmpSnList.get(tmpSnList.size() - 1).getGdNo() );
-*/
 		}
 
 		//最後のtmpシナリオデータの情報を競技状態を追加する
@@ -109,13 +111,14 @@ public class ScenarioMake {
 				getActivity(tmpSnList.get(0).getActNo(),tmpSnList.get(0).getActValue())
 		);
 /*
+	    //---> Add 2022/07/13 T.Okado Debug用
 		for(int j = 0; j < tmpSnList.size(); j++ ) {
-			write(2,tmpSnList.get(j).getSceneNo(),
+			write(debugCnt,tmpSnList.get(j).getSceneNo(),
 					tmpSnList.get(j).getStateNo(),
 					tmpSnList.get(j).getActNo() ,
 					tmpSnList.get(j).getGdNo() );
-
 		}
+	    //<--- Add 2022/07/13 T.Okado
 */
 	}
 
@@ -212,6 +215,14 @@ public class ScenarioMake {
 					actValue.get(1).floatValue()
 				);
 				break;
+			//ベースコースゴール到達
+			case 8:
+				tmpActivity =new ActivityBaseFinish();
+				break;
+			//ゲーム攻略開始待ち
+			case 9:
+				tmpActivity =new ActivityGameStartWait();
+				break;
 		}
 
 		return tmpActivity;
@@ -220,7 +231,6 @@ public class ScenarioMake {
 
 
 /*
-
     //---> Add 2022/07/13 T.Okado Debug用
 	public void write(int no, int sceneNo, int stateNo, int actNo, int gdNo) {
         try {
@@ -244,5 +254,4 @@ public class ScenarioMake {
     }
     //<--- Add 2022/07/13 T.Okado
 */
-
 }

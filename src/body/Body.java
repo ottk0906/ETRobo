@@ -15,6 +15,7 @@ import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.utility.Stopwatch;
+import scenario.ParaFileMgt;
 
 /**
  * 走行体クラス
@@ -25,9 +26,11 @@ public final class Body {
 	public static final Measure measure;
 	/** 制御 */
 	public static final Control control;
-	// 自己位置推定クラス
+	/** 自己位置推定クラス */
 	public static final SelfPosition selfPos;
-    /** ストップウォッチクラス	*/
+	/** 走行パラメータファイル追加管理クラス */
+	public static final ParaFileMgt paraFileMgt;
+    /** ストップウォッチクラス */
 	public static final Stopwatch stopwatch;
 
 	/** 車輪の半径(mm) */
@@ -62,11 +65,12 @@ public final class Body {
 		control = new Control(controlWheel, controlArm);
 		// 自己位置推定クラス
 		selfPos = new SelfPosition();
+	    //走行パラメータファイル追加管理クラスを生成する
+	    paraFileMgt = new ParaFileMgt();
 	    //ストップウォッチクラスを生成する
 	    stopwatch = new Stopwatch();
 	    //ストップウォッチのカウンタをリセットする
 	    stopwatch.reset();
-
 	}
 
 	/**
