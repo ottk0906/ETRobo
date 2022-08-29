@@ -16,6 +16,7 @@ public class ActivityCalibrationBlack extends Activity {
 	 * コンストラクタ
 	 */
 	public ActivityCalibrationBlack() {
+		super.name = "ActivityCalibrationBlack";
 		this.minRGB = new float[3];
 		//最大値を設定
 		minRGB[0] = 1;

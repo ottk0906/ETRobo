@@ -1,5 +1,7 @@
 package body.measure;
 
+import java.util.Arrays;
+
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.SensorMode;
 
@@ -49,8 +51,11 @@ public class MeasureCourse {
 	private float black;
 	/** 目標明度 */
 	private float target;
-	/** 路面RGB（赤、緑、青） */
+	/** 路面RGB（割合） */
 	private float rgb[];
+
+	/** 路面RGB（生値） */
+	private float rgbOrigin[];
 
 	/**
 	 * コンストラクタ
@@ -60,6 +65,7 @@ public class MeasureCourse {
 		this.colorSensor = colorSensor;
 		sensorMode = colorSensor.getRGBMode();
 		rgb = new float[sensorMode.sampleSize()];
+		rgbOrigin = new float[sensorMode.sampleSize()];
 
 		whiteRGB = new float[3];
 		blackRGB = new float[3];
@@ -76,13 +82,16 @@ public class MeasureCourse {
 	 * 更新する
 	 */
 	public void update() {
-		// RGBを取得する
+		//RGBを取得する
 		sensorMode.fetchSample(rgb, 0);
+
+		//RGBの生値をコピーする
+		rgbOrigin = Arrays.copyOf(rgb, 3);
 
 		//RGBに補正をかける
 		ajustRGB();
 
-		// RGBをHSV、HSLに変換し、それぞれで色を判定する
+		//RGBをHSV、HSLに変換し、それぞれで色を判定する
 		measureCourseHSL.update();
 		measureCourseHSV.update();
 	}
@@ -169,10 +178,18 @@ public class MeasureCourse {
 
 	/**
 	 * RGB値を取得する
-	 * @return rgb (Red,Green,Blue)
+	 * @return rgb (割合)
 	 */
-	float[] getRGB() {
+	public float[] getRGB() {
 		return rgb;
+	}
+
+	/**
+	 * RGB値（生値）を取得する
+	 * @return rgb (生値)
+	 */
+	public float[] getRGBOrigin() {
+		return rgbOrigin;
 	}
 
 	//************* 色判定閾値設定のsetter() *************
@@ -350,15 +367,31 @@ public class MeasureCourse {
 	//************* RGBキャリブレーション *************
 
 	/**
-	 * 白RGBを設定する
+	 * 白キャリブレーションのRGB値を取得する
+	 * @return 白キャリブレーションのRGB値
+	 */
+	public float[] getWhiteRGB() {
+		return this.whiteRGB;
+	}
+
+	/**
+	 * 黒キャリブレーションのRGB値を取得する
+	 * @return 黒キャリブレーションのRGB値
+	 */
+	public float[] getBlackRGB() {
+		return this.blackRGB;
+	}
+
+	/**
+	 * 白キャリブレーションのRGB値を設定する
 	 * @param maxRGB
 	 */
-	public void setWhtieRGB(float[] maxRGB) {
+	public void setWhiteRGB(float[] maxRGB) {
 		this.whiteRGB = maxRGB;
 	}
 
 	/**
-	 * 黒RGBを設定する
+	 * 黒キャリブレーションのRGB値を設定する
 	 * @param minRGB
 	 */
 	public void setBlackRGB(float[] minRGB) {

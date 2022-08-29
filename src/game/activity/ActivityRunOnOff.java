@@ -18,7 +18,7 @@ public class ActivityRunOnOff extends ActivityRun {
 	 * @param turn 目標回転角速度(度/秒)
 	 */
 	public ActivityRunOnOff(float forward, float turn) {
-		super(forward, 0.0f);
+		super(forward, 0.0f, "ActivityRunOnOff");
 		initialTurn = turn;
 	}
 

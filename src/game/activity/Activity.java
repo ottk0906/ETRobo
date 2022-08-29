@@ -1,6 +1,9 @@
 package game.activity;
 
+import body.Body;
+import fileIO.CsvWrite;
 import task.Beep;
+
 
 /**
  * 動作クラス
@@ -9,6 +12,9 @@ import task.Beep;
  */
 public abstract class Activity {
 
+    /** Activity名 */
+    protected String name;
+
 	/**
 	 * 前動作を実行する
 	 * 状態に遷移したときに1度だけ実行される動作
@@ -16,6 +22,33 @@ public abstract class Activity {
 	 */
 	public void entryAction() {
 		Beep.ring();
+
+		//CSVファイル出力クラスのインスタンスを生成する
+		CsvWrite csvWrite = new CsvWrite();
+		//ログに出力する文言をセットする
+		String outStr = "entry Activity ---> " + name + "\r\n";
+
+		String fileName="";
+		for(int iLoop = 0; iLoop < 4; iLoop++ ) {
+			//ファイル名を生成する
+			switch(iLoop){
+			case 0:
+				fileName = "log" + Body.logFileSuffix + ".csv";
+				break;
+			case 1:
+				fileName = "RGBLog" + Body.logFileSuffix + ".csv";
+				break;
+			case 2:
+				fileName = "logHSV" + Body.logFileSuffix + ".csv";
+				break;
+			case 3:
+				fileName = "logHSL" + Body.logFileSuffix + ".csv";
+				break;
+			}
+			//CSVファイルに出力する
+			csvWrite.writeCsvFile(fileName, outStr, true);
+		}
+
 	}
 
 	/**
@@ -31,6 +64,16 @@ public abstract class Activity {
 	 * UMLステートマシン図のexitアクション
 	 */
 	public void exitAction() {
-
+		//処理なし
 	}
+
+    /**
+     * Activity名を取得する
+     * @return Activity名
+     */
+	public String getName() {
+		return name;
+	}
+
 }
+

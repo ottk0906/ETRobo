@@ -77,7 +77,12 @@ public class Log {
 	 */
 	private void addRGB() {
 		float[] rgb = Body.measure.getRGB();
-		LogData data = new LogRGBData(game.getCount(), rgb[0], rgb[1], rgb[2],Body.stopwatch.elapsed());
+		LogData data = new LogRGBData(game.getCount(),
+				Body.measure.getRGB(),
+				Body.measure.getRGBOrigin(),
+				Body.measure.getWhiteRGB(),
+				Body.measure.getBlackRGB(),
+				Body.stopwatch.elapsed());
 		logRGBList.add(data);
 	}
 
@@ -156,7 +161,9 @@ public class Log {
 	public void writeRGB(boolean init) {
 		if(init) {
 			//ヘッダー文字列を設定する
-			String headerString = "Count,Red,Green,Blue,elapsedTime";
+			String headerString = "Count,Red,Green,Blue,Red_Origin,Green_Origin,Blue_Origin,";
+			headerString = headerString + "Red_WH,Green_WH,Blue_WH,Red_BL,Green_BL,Blue_BL,elapsedTime";
+
 			csvWrite.setHeaderString(headerString);
 		}
 		//ファイル名を生成する

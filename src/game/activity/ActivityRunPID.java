@@ -26,9 +26,8 @@ public class ActivityRunPID extends ActivityRun {
 	private final int RIGHT_EDGE = 0;
 	private final int LEFT_EDGE = 1;
 
-
 	public ActivityRunPID(float forward, float turn, float KP, float KI, float KD, int edge) {
-		super(forward, turn);
+		super(forward, turn, "ActivityRunPID");
 
 		this.KP = KP;
 		this.KI = KI;

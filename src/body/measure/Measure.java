@@ -216,10 +216,18 @@ public class Measure {
 
 	/**
 	 * RGB値を取得する
-	 * @return	rgb　RGB値
+	 * @return	rgb RGB値(割合)
 	 */
 	public float[] getRGB() {
 		return measureCourse.getRGB();
+	}
+
+	/**
+	 * RGB値（生値）を取得する
+	 * @return rgb RGB値（生値）
+	 */
+	public float[] getRGBOrigin() {
+		return measureCourse.getRGBOrigin();
 	}
 
 	/**
@@ -321,15 +329,31 @@ public class Measure {
 	//************* RGBキャリブレーション *************
 
 	/**
-	 * 白RGBを設定する
-	 * @param maxRGB
+	 * 白キャリブレーションのRGB値を取得する
+	 * @return 白キャリブレーションのRGB値
 	 */
-	public void setWhiteRGB(float[] maxRGB) {
-		measureCourse.setWhtieRGB(maxRGB);
+	public float[] getWhiteRGB() {
+		return measureCourse.getWhiteRGB();
 	}
 
 	/**
-	 * 黒RGBを設定する
+	 * 黒キャリブレーションのRGB値を取得する
+	 * @return 黒キャリブレーションのRGB値
+	 */
+	public float[] getBlackRGB() {
+		return measureCourse.getBlackRGB();
+	}
+
+	/**
+	 * 白キャリブレーションのRGB値を設定する
+	 * @param maxRGB
+	 */
+	public void setWhiteRGB(float[] maxRGB) {
+		measureCourse.setWhiteRGB(maxRGB);
+	}
+
+	/**
+	 * 黒キャリブレーションのRGB値を設定する
 	 * @param minRGB
 	 */
 	public void setBlackRGB(float[] minRGB) {

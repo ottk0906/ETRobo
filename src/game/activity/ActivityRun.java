@@ -20,9 +20,23 @@ public class ActivityRun extends Activity {
 	 * @param turn 目標回転角速度(度/秒)
 	 */
 	public ActivityRun(float forward, float turn) {
+		super.name = "ActivityRun";
 		this.forward = forward;
 		this.turn = turn;
 	}
+
+	/**
+	 * コンストラクタ
+	 * @param forward		目標速度(mm/秒)
+	 * @param turn			目標回転角速度(度/秒)
+	 * @param activityName	アクティビティ名
+	 */
+	public ActivityRun(float forward, float turn, String activityName) {
+		super.name = activityName;
+		this.forward = forward;
+		this.turn = turn;
+	}
+
 
 	/**
 	 * 継続動作を実行する

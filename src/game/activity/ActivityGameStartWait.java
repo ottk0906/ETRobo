@@ -13,7 +13,7 @@ public class ActivityGameStartWait extends Activity{
      * コンストラクタ
      */
 	public ActivityGameStartWait() {
-		//処理なし
+		super.name = "ActivityGameStartWait";
 	}
 
 	/**

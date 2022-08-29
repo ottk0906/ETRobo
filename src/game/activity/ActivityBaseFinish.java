@@ -14,6 +14,7 @@ public class ActivityBaseFinish extends Activity {
      */
     public ActivityBaseFinish() {
     	//処理なし
+    	super.name = "ActivityBaseFinish";
     }
 
 	/**

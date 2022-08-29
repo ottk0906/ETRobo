@@ -16,6 +16,7 @@ public class ActivityCalibrationWhite extends Activity {
 	 * コンストラクタ
 	 */
 	public ActivityCalibrationWhite() {
+		super.name = "ActivityCalibrationWhite";
 		this.maxRGB = new float[3];
 	}
 

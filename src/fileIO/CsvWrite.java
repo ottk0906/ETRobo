@@ -33,7 +33,6 @@ public class CsvWrite {
 	 * @param	LogData		出力データリスト
 	 * @param	appendMode	アペンドモード(True：追記 / False：上書)
 	 * @param	outHeader	ヘッダー情報出力可否(True：出力 / False：未出力)
-	 * @throws IOException
 	 */
 	public void writeCsvFile(String fileNme, List<LogData> logList, boolean appendMode, boolean outHeader) {
 
@@ -56,6 +55,44 @@ public class CsvWrite {
 				sb.append(data.toString());
 			}
 			bw.write(sb.toString());
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if(bw != null) {
+				try {
+					bw.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if(fw != null) {
+				try {
+					fw.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	/**
+	 * CSVファイル出力（指定文字列を出力する）
+	 * @param	fileName	ファイル名
+	 * @param	outStr		出力文字列
+	 * @param	appendMode	アペンドモード(True：追記 / False：上書)
+	 */
+	public void writeCsvFile(String fileNme, String outStr, boolean appendMode) {
+
+		File file = null;
+		FileWriter fw = null;
+		BufferedWriter bw = null;
+
+		try {
+			file = new File(fileNme);
+			fw = new FileWriter(file, appendMode);
+			bw = new BufferedWriter(fw);
+			bw.write(outStr);
 			bw.close();
 		} catch (IOException e) {
 			e.printStackTrace();

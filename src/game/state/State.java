@@ -2,6 +2,8 @@ package game.state;
 
 import java.util.ArrayList;
 
+import body.Body;
+import fileIO.CsvWrite;
 import game.Game;
 import game.activity.Activity;
 import game.guard.Guard;
@@ -59,8 +61,38 @@ public abstract class State {
      */
     public void doActivity(Game game) {
         if (guardList.get(index).judge()) {
+
             index++;
-            if(index >= guardList.size()){
+
+            //CSVファイル出力クラスのインスタンスを生成する
+    		CsvWrite csvWrite = new CsvWrite();
+    		//ログに出力する文言をセットする
+    		String outStr = "exit Activity <--- " + activityList.get(index - 1).getName() + "\r\n";
+    		if(index < activityList.size()){
+    			outStr = outStr + "entry Activity ---> " + activityList.get(index).getName() + "\r\n";
+    		}
+    		String fileName="";
+    		for(int iLoop = 0; iLoop < 4; iLoop++ ) {
+    			//ファイル名を生成する
+    			switch(iLoop){
+    			case 0:
+    				fileName = "log" + Body.logFileSuffix + ".csv";
+    				break;
+    			case 1:
+    				fileName = "RGBLog" + Body.logFileSuffix + ".csv";
+    				break;
+    			case 2:
+    				fileName = "logHSV" + Body.logFileSuffix + ".csv";
+    				break;
+    			case 3:
+    				fileName = "logHSL" + Body.logFileSuffix + ".csv";
+    				break;
+    			}
+    			//CSVファイルに出力する
+    			csvWrite.writeCsvFile(fileName, outStr, true);
+    		}
+
+    		if(index >= guardList.size()){
                 changeState(game);
             } else {
                 Beep.ring();

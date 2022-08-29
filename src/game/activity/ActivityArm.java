@@ -15,7 +15,7 @@ public class ActivityArm extends ActivityRun {
 	 * @param targetDegrees 目標角度
 	 */
 	public ActivityArm(float targetDegrees) {
-		super(0, 0);
+		super(0, 0, "ActivityArm");
 		this.targetDegrees = targetDegrees;
 	}
 

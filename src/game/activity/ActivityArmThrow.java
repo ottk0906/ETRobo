@@ -19,7 +19,7 @@ public class ActivityArmThrow extends ActivityRun {
 	 *
 	 */
 	public ActivityArmThrow(float targetDegrees, float armRotationSpeed) {
-		super(0, 0);
+		super(0, 0, "ActivityArmThrow");
 		this.targetDegrees = targetDegrees;
 		this.armRotationSpeed = armRotationSpeed;
 	}

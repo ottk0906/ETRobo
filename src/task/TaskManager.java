@@ -94,7 +94,7 @@ public class TaskManager {
      */
     public void schedule(){
         futureGame = scheduler.scheduleAtFixedRate(gameTask, 0, 10, TimeUnit.MILLISECONDS);
-        futureScenarioFileMgt = scheduler.scheduleAtFixedRate(scenarioTask, 0, 500, TimeUnit.MILLISECONDS);
+        futureScenarioFileMgt = scheduler.scheduleAtFixedRate(scenarioTask, 0, 10, TimeUnit.MILLISECONDS);
         futureLog = scheduler.scheduleAtFixedRate(logTask, 0, 500, TimeUnit.MILLISECONDS);
     }
 
