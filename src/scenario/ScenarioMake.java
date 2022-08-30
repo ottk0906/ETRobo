@@ -8,6 +8,7 @@ import game.activity.Activity;
 import game.activity.ActivityArm;
 import game.activity.ActivityArmThrow;
 import game.activity.ActivityBaseFinish;
+import game.activity.ActivityCalibrationArm;
 import game.activity.ActivityCalibrationBlack;
 import game.activity.ActivityCalibrationWhite;
 import game.activity.ActivityGameStartWait;
@@ -16,6 +17,7 @@ import game.activity.ActivityRunOnOff;
 import game.activity.ActivityRunPID;
 import game.guard.GuardMain;
 import game.state.State;
+import game.state.StateCalibrationArm;
 import game.state.StateCalibrationBlack;
 import game.state.StateCalibrationWhite;
 import game.state.StateConquest;
@@ -155,6 +157,10 @@ public class ScenarioMake {
 		case 5:
 			tmpState = StateEnd.getInstance();
 			break;
+		//アームキャリブレーション状態
+		case 6:
+			tmpState = StateCalibrationArm.getInstance();
+			break;
 		}
 
 		return tmpState;
@@ -222,6 +228,10 @@ public class ScenarioMake {
 			//ゲーム攻略開始待ち
 			case 9:
 				tmpActivity =new ActivityGameStartWait();
+				break;
+			//アームキャリブレーション
+			case 10:
+				tmpActivity =new ActivityCalibrationArm(actValue.get(0).floatValue());
 				break;
 		}
 

@@ -36,4 +36,10 @@ public class MeasureArm {
         return armDegrees;
     }
 
+    /**
+     * アームモータの角度をリセットする
+     */
+    public void resetArmPosition() {
+		armMotor.resetTachoCount();
+	}
 }

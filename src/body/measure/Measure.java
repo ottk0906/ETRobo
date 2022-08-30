@@ -215,6 +215,13 @@ public class Measure {
 	}
 
 	/**
+	 * アームモータの角度をリセットする
+	 */
+	public void resetArmPosition() {
+		measureArm.resetArmPosition();
+	}
+
+	/**
 	 * RGB値を取得する
 	 * @return	rgb RGB値(割合)
 	 */

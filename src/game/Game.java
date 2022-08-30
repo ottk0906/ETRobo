@@ -3,7 +3,7 @@ package game;
 import body.control.Control;
 import body.measure.Measure;
 import game.state.State;
-import game.state.StateCalibrationWhite;
+import game.state.StateCalibrationArm;
 import game.state.StateEnd;
 import scenario.ScenarioMake;
 
@@ -38,7 +38,7 @@ public class Game {
 		Scenario.makeScenarioList(INIT_SCENARIO_LIST_FILE);
 		Scenario.makeMoveStatus();
 
-		changeState(null, StateCalibrationWhite.getInstance());
+		changeState(null, StateCalibrationArm.getInstance());
 	}
 
 	/**
