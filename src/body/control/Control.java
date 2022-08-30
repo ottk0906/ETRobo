@@ -58,6 +58,16 @@ public class Control {
 		controlArm.run();
 	}
 
+
+	/**
+	 * 目標速度(mm/秒)を取得する
+	 * @return 目標速度(mm/秒)
+	 */
+	public float getForward() {
+		return forward;
+	}
+
+
     /**
      * gameクラスオブジェクトを設定する
      * @param	game	gameクラスのインスタンス

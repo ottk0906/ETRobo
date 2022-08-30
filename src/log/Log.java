@@ -66,8 +66,12 @@ public class Log {
 	 */
 	private void addCourse() {
 		LogData data = new LogDataCourse(game.getCount(), game.toString(),
-                Body.measure.getHue(), Body.measure.getSaturation(), Body.measure.getValue(),
-                Body.measure.getLeftRotationSpeed(), Body.measure.getRightRotationSpeed(),
+                Body.measure.getHue(),
+                Body.measure.getSaturation(),
+                Body.measure.getValue(),
+                Body.measure.getTarget(),
+                Body.measure.getLeftRotationSpeed(),
+                Body.measure.getRightRotationSpeed(),
                 Body.stopwatch.elapsed());
         logList.add(data);
 	}
@@ -144,7 +148,7 @@ public class Log {
 	public void writeCourse(boolean init) {
 		if(init) {
 			//ヘッダー文字列を設定する
-			String headerString = "count,status,hue,saturation,value,leftRotationSpeed,rightRotationSpeed,elapsedTime";
+			String headerString = "count,status,hue,saturation,value,target,leftRotationSpeed,rightRotationSpeed,elapsedTime";
 			csvWrite.setHeaderString(headerString);
 		}
 		//ファイル名を生成する

@@ -13,8 +13,10 @@ import game.activity.ActivityCalibrationBlack;
 import game.activity.ActivityCalibrationWhite;
 import game.activity.ActivityGameStartWait;
 import game.activity.ActivityRun;
+import game.activity.ActivityRunAccele;
 import game.activity.ActivityRunOnOff;
 import game.activity.ActivityRunPID;
+import game.activity.ActivityTarget;
 import game.guard.GuardMain;
 import game.state.State;
 import game.state.StateCalibrationArm;
@@ -232,6 +234,18 @@ public class ScenarioMake {
 			//アームキャリブレーション
 			case 10:
 				tmpActivity =new ActivityCalibrationArm(actValue.get(0).floatValue());
+				break;
+			//目標明度設定
+			case 11:
+				tmpActivity =new ActivityTarget(actValue.get(0).floatValue());
+				break;
+			//通常走行(加減速)
+			case 12:
+				tmpActivity = new ActivityRunAccele(
+					actValue.get(0).floatValue(),
+					actValue.get(1).floatValue(),
+					actValue.get(2).floatValue()
+				);
 				break;
 		}
 

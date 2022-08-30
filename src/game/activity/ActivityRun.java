@@ -3,7 +3,7 @@ package game.activity;
 import body.Body;
 
 /**
- * 走行動作クラス
+ * 通常走行動作クラス
  * @author 後藤　聡文
  *
  */
