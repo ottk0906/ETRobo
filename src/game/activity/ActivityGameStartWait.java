@@ -23,9 +23,12 @@ public class ActivityGameStartWait extends Activity{
 	 */
 	@Override
 	public void doActivity() {
-		//走行体を停止する
-		Body.control.setForward(0.0f);
-		Body.control.setTurn(0.0f);
+		//ゲーム攻略準備完了判定フラグがfalseの場合（ゲーム攻略用のシナリオが未作成の場合）
+		if(!Body.paraFileMgt.getGameScenarioReady()) {
+			//走行体を停止する
+			Body.control.setForward(0.0f);
+			Body.control.setTurn(0.0f);
+		}
 	}
 
 }

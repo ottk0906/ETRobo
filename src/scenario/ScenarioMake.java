@@ -16,6 +16,7 @@ import game.activity.ActivityRun;
 import game.activity.ActivityRunAccele;
 import game.activity.ActivityRunOnOff;
 import game.activity.ActivityRunPID;
+import game.activity.ActivityRunPIDAccele;
 import game.activity.ActivityTarget;
 import game.guard.GuardMain;
 import game.state.State;
@@ -244,8 +245,22 @@ public class ScenarioMake {
 				tmpActivity = new ActivityRunAccele(
 					actValue.get(0).floatValue(),
 					actValue.get(1).floatValue(),
-					actValue.get(2).floatValue()
+					actValue.get(2).floatValue(),
+					actValue.get(3).floatValue()
 				);
+				break;
+			//PID走行(加減速)
+			case 13:
+				tmpActivity = new ActivityRunPIDAccele(
+						actValue.get(0).floatValue(),
+						actValue.get(1).floatValue(),
+						actValue.get(2).floatValue(),
+						actValue.get(3).floatValue(),
+						actValue.get(4).floatValue(),
+						actValue.get(5).intValue(),
+						actValue.get(6).floatValue(),
+						actValue.get(7).floatValue()
+					);
 				break;
 		}
 

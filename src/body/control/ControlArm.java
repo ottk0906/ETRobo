@@ -1,5 +1,6 @@
 package body.control;
 
+import body.Body;
 import hardware.KamogawaRegulatedMotor;
 
 /**
@@ -17,8 +18,6 @@ public class ControlArm {
 
 	private int armMode;
 
-	/**処理周期*/
-	private float DELTA_T = 0.010f;
 	/**偏差（前回の偏差、今回の偏差）*/
 	private float kago[] = new float[2];
 	/**平均偏差/秒*/
@@ -89,11 +88,11 @@ public class ControlArm {
 		//操作量を計算する
 		kago[0] = kago[1];
 		kago[1] = targetDegrees - tmpDegrees;
-		integral += (kago[1] + kago[0]) / 2.0f * DELTA_T;
+		integral += (kago[1] + kago[0]) / 2.0f * Body.DELTA_T;
 
 		p = KP * kago[1];
 		i = KI * integral;
-		d = KD * (kago[1] - kago[0]) / DELTA_T;
+		d = KD * (kago[1] - kago[0]) / Body.DELTA_T;
 
 		this.armRotationSpeed = p + i + d;
 	}

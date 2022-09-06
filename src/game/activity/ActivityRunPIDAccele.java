@@ -3,10 +3,11 @@ package game.activity;
 import body.Body;
 
 /**
- * PID走行クラス
- *@author 原田　寛大
+ * PID走行(加減速)動作クラス
+ * @author 尾角 武俊
+ *
  */
-public class ActivityRunPID extends ActivityRun {
+public class ActivityRunPIDAccele extends ActivityRunAccele {
 	/** 偏差(前回の偏差、今回の偏差) */
 	private float kago[] = new float[2];
 	/** 平均偏差/秒 */
@@ -24,8 +25,8 @@ public class ActivityRunPID extends ActivityRun {
 	private final int RIGHT_EDGE = 0;
 	private final int LEFT_EDGE = 1;
 
-	public ActivityRunPID(float forward, float turn, float KP, float KI, float KD, int edge) {
-		super(forward, turn, "ActivityRunPID");
+	public ActivityRunPIDAccele(float targetForward, float turn, float KP, float KI, float KD, int edge, float second, float initSetrate) {
+		super(targetForward, turn, second,initSetrate, "ActivityRunPIDAccele");
 
 		this.KP = KP;
 		this.KI = KI;
@@ -63,8 +64,11 @@ public class ActivityRunPID extends ActivityRun {
 			turn = turn * -1.0f;
 		}
 
+		//加減速後の目標速度を算出する
+		float setForwardVal = makeForwardValue();
+
 		// 速度を設定する
-		Body.control.setForward(forward);
+		Body.control.setForward(setForwardVal);
 		Body.control.setTurn(turn);
 	}
 }

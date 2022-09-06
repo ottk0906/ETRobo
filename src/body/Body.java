@@ -41,6 +41,9 @@ public final class Body {
 	public static final float TREAD = 147.0f;
 	/** 車輪の円周(mm) */
 	public static final float CIRCLE = 320.0f;
+	/** 処理周期 */
+	public static final float DELTA_T = 0.010f;
+
 	/** ログファイルのサフィックス値 */
 	public static String logFileSuffix = "0";
 
