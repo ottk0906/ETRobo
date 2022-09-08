@@ -129,11 +129,15 @@ public class GuardMain extends Guard {
 				break;
 			//指定色認識(HSVで判定)
 			case 4:
-				tmpGuard = new GuardColorHSV(gdValue.get(0).intValue(),gdValue.get(1).intValue());
+				tmpGuard = new GuardColorHSV(gdValue.get(0).intValue(),
+										gdValue.get(1).intValue(),
+										gdValue.get(2).floatValue());
 				break;
 			//指定色認識(HSLで判定)
 			case 5:
-				tmpGuard = new GuardColorHSL(gdValue.get(0).intValue(),gdValue.get(1).intValue());
+				tmpGuard = new GuardColorHSL(gdValue.get(0).intValue(),
+									gdValue.get(1).intValue(),
+									gdValue.get(2).floatValue());
 				break;
 			//アーム固定角度指定
 			case 6:
