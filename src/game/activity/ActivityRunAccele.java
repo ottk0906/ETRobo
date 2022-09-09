@@ -151,18 +151,34 @@ public class ActivityRunAccele extends Activity  {
 			//基準増分値（基準減分値）を算出する
 			tmpBaseCngVal = 2 * tmpAveCngVal / (maxCnt - 2);
 
-			//LCD.drawString("maxCnt", 0, 3);
-			//LCD.drawString(String.valueOf(maxCnt), 11, 3);
-			//LCD.drawString("Ave", 0, 4);
-			//LCD.drawString(String.valueOf(tmpAveCngVal), 11, 4);
-			//LCD.drawString("BaseCng", 0, 5);
-			//LCD.drawString(String.valueOf(tmpBaseCngVal), 11, 5);
+			//---> Add 2022/09/07 T.Okado Debug用
+			/*
+			LCD.drawString("maxCnt", 0, 3);
+			LCD.drawString(String.valueOf(maxCnt) + " " + String.valueOf(maxCnt / 2), 11, 3);
+			LCD.drawString("Ave", 0, 4);
+			LCD.drawString(String.valueOf(tmpAveCngVal), 11, 4);
+			LCD.drawString("BaseCng", 0, 5);
+			LCD.drawString(String.valueOf(tmpBaseCngVal), 11, 5);
+			*/
+		    //<--- Add 2022/09/07 T.Okado
 
-			for(int iLoop = 0; iLoop < maxCnt / 2; iLoop++) {
+			//ループ数を算出する
+			int loopCnt = (int) Math.ceil((double)maxCnt / 2);
+
+		    //---> Add 2022/09/07 T.Okado Debug用
+			//write2("1,maxCnt," +  String.valueOf(maxCnt) + ",loopCnt," + String.valueOf(loopCnt) + ",ceil," + Math.ceil((double)maxCnt / 2) );
+		    //<--- Add 2022/09/07 T.Okado
+
+			for(int iLoop = 0; iLoop < loopCnt ; iLoop++) {
 				//実行回数が奇数回の場合に中央値が1つになるための対応
 				if(iLoop == (maxCnt - 1 - iLoop)) {
 					//平均増分値(平均減分値)を、増分値(減分値)マップに追加する
 					mapCngVal.put(iLoop, tmpAveCngVal);
+
+				    //---> Add 2022/09/07 T.Okado Debug用
+					//write2("2," +  String.valueOf(iLoop) + "," + String.valueOf(tmpAveCngVal));
+				    //<--- Add 2022/09/07 T.Okado
+
 				} else {
 					//増分値（減分値）を算出する
 					tmpCngVal1 = tmpBaseCngVal * iLoop;
@@ -172,13 +188,24 @@ public class ActivityRunAccele extends Activity  {
 					//算出した増分値(減分値)を増分値(減分値)マップに追加する
 					mapCngVal.put(iLoop, tmpCngVal1);
 					mapCngVal.put(maxCnt - 1 - iLoop, tmpCngVal2);
+
+				    //---> Add 2022/09/07 T.Okado Debug用
+					//write2("3," +  String.valueOf(iLoop) + "," + String.valueOf(tmpCngVal1) + "," +  String.valueOf(maxCnt - 1 - iLoop) + "," + String.valueOf(tmpCngVal2) );
+				    //<--- Add 2022/09/07 T.Okado
+
 				}
 			}
+
+		    //---> Add 2022/09/07 T.Okado Debug用
+			//write();
+		    //<--- Add 2022/09/07 T.Okado
 
 		} else {
 			//目標速度に達するまでは、目標速度リストから値を取得し、速度を設定する
 			if(nowCnt < maxCnt) {
-				setForwardVal = setForwardVal + mapCngVal.get(nowCnt) ;
+				if(mapCngVal.get(nowCnt) != null) {
+					setForwardVal = setForwardVal + mapCngVal.get(nowCnt) ;
+				}
 				//現在の実行回数をカウントアップする
 				nowCnt++;
 			//目標速度に達した以降は、目標速度を設定する
@@ -187,15 +214,58 @@ public class ActivityRunAccele extends Activity  {
 			}
 		}
 
-		//LCD.drawString("Before", 0, 1);
-		//LCD.drawString(String.valueOf(beforeForward), 11, 1);
-		//LCD.drawString("Target", 0, 2);
-		//LCD.drawString( String.valueOf(targetForward), 11, 2);
-		//LCD.drawString("setForward", 0, 6);
-		//LCD.drawString(String.valueOf(setForwardVal), 11, 6);
+		//---> Add 2022/09/07 T.Okado Debug用
+		/*
+		LCD.drawString("Before", 0, 1);
+		LCD.drawString(String.valueOf(beforeForward), 11, 1);
+		LCD.drawString("Target", 0, 2);
+		LCD.drawString( String.valueOf(targetForward), 11, 2);
+		LCD.drawString("setForward", 0, 6);
+		LCD.drawString(String.valueOf(setForwardVal), 11, 6);
+		*/
+	    //<--- Add 2022/09/07 T.Okado
 
 		return setForwardVal;
 
 	}
 
+/*
+    //---> Add 2022/09/07 T.Okado Debug用
+	public void write() {
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.append("size : " + mapCngVal.size()).append("\r\n");
+            sb.append(mapCngVal.get(0));
+            for(int i = 1; i < mapCngVal.size(); i++) {
+                sb.append(",").append(mapCngVal.get(i));
+            }
+            sb.append("\r\n");
+
+        	File file = new File("ActivityRunAccele.csv");
+            FileWriter fw = new FileWriter(file, true);	//アペンドモードで書き込む
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(sb.toString());
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+	public void write2(String str) {
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.append(str).append("\r\n");
+        	File file = new File("ActivityRunAccele.csv");
+            FileWriter fw = new FileWriter(file, true);	//アペンドモードで書き込む
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(sb.toString());
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+	//<--- Add 2022/09/07 T.Okado
+*/
 }
