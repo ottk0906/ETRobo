@@ -82,7 +82,7 @@ public class CsvWrite {
 	 * @param	outStr		出力文字列
 	 * @param	appendMode	アペンドモード(True：追記 / False：上書)
 	 */
-	public void writeCsvFile(String fileNme, String outStr, boolean appendMode) {
+	public void writeFile(String fileNme, String outStr, boolean appendMode) {
 
 		File file = null;
 		FileWriter fw = null;

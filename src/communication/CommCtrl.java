@@ -13,6 +13,10 @@ import lejos.hardware.lcd.LCD;
 
 /**
  * メッセージ制御クラス
+ *
+ * ★☆★☆ 本クラスは未使用                                                                                                    ★☆★☆
+ * ★☆★☆ メッセージ送信での無線通信デバイス動作開始を廃止し、無線通信デバイスの開始ファイル監視での動作開始の方式に変更した。★☆★☆
+ *
  * <P> Bluetoothで走行体に接続後、コマンドプロンプトで「ipconfig」コマンドを実行し
  *     「イーサネット アダプター Bluetooth ネットワーク接続」の「IPv4アドレス」を「IPアドレス」とする。
  * <P> ポート番号は5000番を使用している。（ポート開放しておくこと）
@@ -81,18 +85,21 @@ public class CommCtrl {
 
 		} catch (SocketException e) {
 			LCD.drawString("SocketException",0,5);
+			//e.printStackTrace();
 		} catch (SocketTimeoutException e) {
 			LCD.drawString("SocketTimeoutException",0,5);
+			//e.printStackTrace();
 		} catch (Exception e) {
 			LCD.drawString("Exception",0,5);
+			//e.printStackTrace();
 		} finally {
 			try {
 				//サーバから切断する
 				socket.close();
-
 				//LCD.drawString("closed!!",0,6);
 			} catch (IOException e) {
 				LCD.drawString("IOException",0,5);
+				//e.printStackTrace();
 			}
 		}
 	}

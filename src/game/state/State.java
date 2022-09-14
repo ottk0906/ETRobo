@@ -89,7 +89,7 @@ public abstract class State {
     				break;
     			}
     			//CSVファイルに出力する
-    			csvWrite.writeCsvFile(fileName, outStr, true);
+    			csvWrite.writeFile(fileName, outStr, true);
     		}
 
     		if(index >= guardList.size()){

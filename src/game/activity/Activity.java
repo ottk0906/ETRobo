@@ -46,7 +46,7 @@ public abstract class Activity {
 				break;
 			}
 			//CSVファイルに出力する
-			csvWrite.writeCsvFile(fileName, outStr, true);
+			csvWrite.writeFile(fileName, outStr, true);
 		}
 	}
 

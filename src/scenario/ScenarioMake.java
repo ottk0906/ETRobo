@@ -18,6 +18,7 @@ import game.activity.ActivityRunOnOff;
 import game.activity.ActivityRunPID;
 import game.activity.ActivityRunPIDAccele;
 import game.activity.ActivitySend;
+import game.activity.ActivityStart;
 import game.activity.ActivityTarget;
 import game.guard.GuardMain;
 import game.state.State;
@@ -271,6 +272,10 @@ public class ScenarioMake {
 						Integer.parseInt(actValue.get(2)),
 						Integer.parseInt(actValue.get(3))
 				);
+				break;
+			//競技開始ファイル作成
+			case 15:
+				tmpActivity = new ActivityStart();
 				break;
 		}
 

@@ -1,6 +1,5 @@
 package scenario;
 
-import communication.CommCtrl;
 import fileIO.CsvRead;
 import game.Game;
 import game.state.StateConquest;
@@ -13,7 +12,7 @@ import game.state.StateRun;
 public class ParaFileMgt {
 
 	private final String  EV3_GAME_SCENARIO_LIST = "EV3_Game_ScenarioList.csv";				//ゲーム攻略用の走行パラメータファイル名
-	private final String  EV3_GAME_SCENARIO_LIST_BAK = "EV3_Game_ScenarioList.bak";			//ゲーム攻略用の走行パラメータファイル名のバックアップファイル名
+	//private final String  EV3_GAME_SCENARIO_LIST_BAK = "EV3_Game_ScenarioList.bak";			//ゲーム攻略用の走行パラメータファイル名のバックアップファイル名
 	private final String  EV3_DEGRADATION_SCENARIO_LIST = "EV3_Degradation_ScenarioList.csv";	//縮退運転用の走行パラメータファイル名
 
 	private Game game;							//競技クラス
@@ -27,7 +26,7 @@ public class ParaFileMgt {
 	private int timeout;		//コネクション確立時のタイムアウト
 	private int msgCode;		//メッセージコード
 
-	private boolean msgResendFlg;	//走行パラメータ転送要求再送フラグ
+	//private boolean msgResendFlg;	//走行パラメータ転送要求再送フラグ
 
 	/**
 	 * コンストラクタ
@@ -36,7 +35,7 @@ public class ParaFileMgt {
 		csvRead = new CsvRead();
 		baseCourseFinish = false;
 		gameScenarioReady = false;
-		msgResendFlg = false;
+		//msgResendFlg = false;
 	}
 
 	/**
@@ -75,13 +74,15 @@ public class ParaFileMgt {
 		    		//ベーシックコースのゴールに到達している場合
 		    		if(getBaseCourseFinish()) {
 
+		    			//---> 無線通信デバイスが競技開始ファイルを監視する方式に仕様変更したため、処理を削除
 		    			//走行パラメータ転送要求の再送は1回のみとする
-		    			if(!msgResendFlg) {
+		    			//if(!msgResendFlg) {
 			    			//無線通信デバイスに走行パラメータ転送要求を送信する
-			    	    	CommCtrl commCtrl = new CommCtrl(getIpAddress(), getPort(), getTimeout(), getMsgCode());
-			    	    	commCtrl.sendMessage();
-			    	    	msgResendFlg = true;
-		    			}
+			    	    //	CommCtrl commCtrl = new CommCtrl(getIpAddress(), getPort(), getTimeout(), getMsgCode());
+			    	    //	commCtrl.sendMessage();
+			    	    //	msgResendFlg = true;
+		    			//}
+		    			//<---
 
 		    			//現在の競技状態が「ゲーム攻略状態」の場合
 		    			if(game.getStatus() instanceof StateConquest) {
