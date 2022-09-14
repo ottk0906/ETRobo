@@ -17,6 +17,7 @@ import game.activity.ActivityRunAccele;
 import game.activity.ActivityRunOnOff;
 import game.activity.ActivityRunPID;
 import game.activity.ActivityRunPIDAccele;
+import game.activity.ActivitySend;
 import game.activity.ActivityTarget;
 import game.guard.GuardMain;
 import game.state.State;
@@ -175,7 +176,7 @@ public class ScenarioMake {
 	 * @param actNo	動作定義番号
 	 * @param actValue	動作定義のパラメータ
 	 */
-	private Activity getActivity(int actNo, List<Double> actValue) {
+	private Activity getActivity(int actNo, List<String> actValue) {
 
 		Activity tmpActivity = null;
 
@@ -191,37 +192,37 @@ public class ScenarioMake {
 			//通常走行
 			case 2:
 				tmpActivity = new ActivityRun(
-					actValue.get(0).floatValue(),
-					actValue.get(1).floatValue()
+						Float.parseFloat(actValue.get(0)),
+						Float.parseFloat(actValue.get(1))
 				);
 				break;
 			//PID走行
 			case 3:
 				tmpActivity = new ActivityRunPID(
-					actValue.get(0).floatValue(),
-					actValue.get(1).floatValue(),
-					actValue.get(2).floatValue(),
-					actValue.get(3).floatValue(),
-					actValue.get(4).floatValue(),
-					actValue.get(5).intValue()
+						Float.parseFloat(actValue.get(0)),
+						Float.parseFloat(actValue.get(1)),
+						Float.parseFloat(actValue.get(2)),
+						Float.parseFloat(actValue.get(3)),
+						Float.parseFloat(actValue.get(4)),
+						Integer.parseInt(actValue.get(5))
 				);
 				break;
 			//OnOff走行
 			case 4:
 				tmpActivity = new ActivityRunOnOff(
-						actValue.get(0).floatValue(),
-						actValue.get(1).floatValue()
-					);
-					break;
+						Float.parseFloat(actValue.get(0)),
+						Float.parseFloat(actValue.get(1))
+				);
+				break;
 			//アーム操作(位置固定)
 			case 5:
-				tmpActivity =new ActivityArm(actValue.get(0).floatValue());
+				tmpActivity =new ActivityArm(Float.parseFloat(actValue.get(0)));
 				break;
 			//アーム操作(スロー)
 			case 6:
-				tmpActivity =new ActivityArmThrow(
-					actValue.get(0).floatValue(),
-					actValue.get(1).floatValue()
+				tmpActivity = new ActivityArmThrow(
+						Float.parseFloat(actValue.get(0)),
+						Float.parseFloat(actValue.get(1))
 				);
 				break;
 			//ベースコースゴール到達
@@ -234,33 +235,42 @@ public class ScenarioMake {
 				break;
 			//アームキャリブレーション
 			case 10:
-				tmpActivity =new ActivityCalibrationArm(actValue.get(0).floatValue());
+				tmpActivity =new ActivityCalibrationArm(Float.parseFloat(actValue.get(0)));
 				break;
 			//目標明度設定
 			case 11:
-				tmpActivity =new ActivityTarget(actValue.get(0).floatValue());
+				tmpActivity =new ActivityTarget(Float.parseFloat(actValue.get(0)));
 				break;
 			//通常走行(加減速)
 			case 12:
 				tmpActivity = new ActivityRunAccele(
-					actValue.get(0).floatValue(),
-					actValue.get(1).floatValue(),
-					actValue.get(2).floatValue(),
-					actValue.get(3).floatValue()
+						Float.parseFloat(actValue.get(0)),
+						Float.parseFloat(actValue.get(1)),
+						Float.parseFloat(actValue.get(2)),
+						Float.parseFloat(actValue.get(3))
 				);
 				break;
 			//PID走行(加減速)
 			case 13:
 				tmpActivity = new ActivityRunPIDAccele(
-						actValue.get(0).floatValue(),
-						actValue.get(1).floatValue(),
-						actValue.get(2).floatValue(),
-						actValue.get(3).floatValue(),
-						actValue.get(4).floatValue(),
-						actValue.get(5).intValue(),
-						actValue.get(6).floatValue(),
-						actValue.get(7).floatValue()
-					);
+						Float.parseFloat(actValue.get(0)),
+						Float.parseFloat(actValue.get(1)),
+						Float.parseFloat(actValue.get(2)),
+						Float.parseFloat(actValue.get(3)),
+						Float.parseFloat(actValue.get(4)),
+						Integer.parseInt(actValue.get(5)),
+						Float.parseFloat(actValue.get(6)),
+						Float.parseFloat(actValue.get(7))
+				);
+				break;
+			//メッセージ送信
+			case 14:
+				tmpActivity =new ActivitySend(
+						actValue.get(0),
+						Integer.parseInt(actValue.get(1)),
+						Integer.parseInt(actValue.get(2)),
+						Integer.parseInt(actValue.get(3))
+				);
 				break;
 		}
 

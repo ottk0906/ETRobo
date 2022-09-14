@@ -1,5 +1,6 @@
 package scenario;
 
+import communication.CommCtrl;
 import fileIO.CsvRead;
 import game.Game;
 import game.state.StateConquest;
@@ -20,6 +21,14 @@ public class ParaFileMgt {
 	private boolean baseCourseFinish;			//ベーシックコースゴール到達判定フラグ
 	private boolean gameScenarioReady;		//ゲーム攻略準備完了判定フラグ
 
+	//無線通信デバイスへの走行パラメータ転送要求の再送信用（開始時に送信した際の情報）
+	private String ipAddress;	//接続先PCのIPアドレス
+	private int port;			//ポート番号
+	private int timeout;		//コネクション確立時のタイムアウト
+	private int msgCode;		//メッセージコード
+
+	private boolean msgResendFlg;	//走行パラメータ転送要求再送フラグ
+
 	/**
 	 * コンストラクタ
 	 */
@@ -27,6 +36,7 @@ public class ParaFileMgt {
 		csvRead = new CsvRead();
 		baseCourseFinish = false;
 		gameScenarioReady = false;
+		msgResendFlg = false;
 	}
 
 	/**
@@ -64,12 +74,14 @@ public class ParaFileMgt {
 
 		    		//ベーシックコースのゴールに到達している場合
 		    		if(getBaseCourseFinish()) {
-		    			//無線通信デバイスに走行パラメータ送信要求を送信する
 
-		    			//*****＜＜メッセージ送信処理を記載する！！！＞＞*****
-
-
-		    			//****************************************************
+		    			//走行パラメータ転送要求の再送は1回のみとする
+		    			if(!msgResendFlg) {
+			    			//無線通信デバイスに走行パラメータ転送要求を送信する
+			    	    	CommCtrl commCtrl = new CommCtrl(getIpAddress(), getPort(), getTimeout(), getMsgCode());
+			    	    	commCtrl.sendMessage();
+			    	    	msgResendFlg = true;
+		    			}
 
 		    			//現在の競技状態が「ゲーム攻略状態」の場合
 		    			if(game.getStatus() instanceof StateConquest) {
@@ -112,6 +124,38 @@ public class ParaFileMgt {
 		return gameScenarioReady;
 	}
 
+	/**
+	 * 走行パラメータ転送要求送信用の接続先PCのIPアドレスを取得する
+	 * @return 接続先PCのIPアドレス
+	 */
+	public String getIpAddress() {
+		return ipAddress;
+	}
+
+	/**
+	 * 走行パラメータ転送要求送信用の接続先PCのポート番号を取得する
+	 * @return 接続先PCのポート番号
+	 */
+	public int getPort() {
+		return port;
+	}
+
+	/**
+	 * 走行パラメータ転送要求送信用のタイムアウト時間を取得する
+	 * @return タイムアウト時間
+	 */
+	public int getTimeout() {
+		return timeout;
+	}
+
+	/**
+	 * 走行パラメータ転送要求送信用のメッセージコードを取得する
+	 * @return メッセージコード
+	 */
+	public int getMsgCode() {
+		return msgCode;
+	}
+
 	//************* setter() *************
 
 	/**
@@ -128,6 +172,38 @@ public class ParaFileMgt {
 	 */
 	public void setGameScenarioReady(boolean flg) {
 		gameScenarioReady = flg;
+	}
+
+	/**
+	 * 走行パラメータ転送要求送信用の接続先PCのIPアドレスを取得する
+	 * @return 接続先PCのIPアドレス
+	 */
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
+	}
+
+	/**
+	 * 走行パラメータ転送要求送信用の接続先PCのポート番号を取得する
+	 * @return 接続先PCのポート番号
+	 */
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	/**
+	 * 走行パラメータ転送要求送信用のタイムアウト時間を取得する
+	 * @return タイムアウト時間
+	 */
+	public void setTimeout(int timeout) {
+		this.timeout = timeout;
+	}
+
+	/**
+	 * 走行パラメータ転送要求送信用のメッセージコードを取得する
+	 * @return メッセージコード
+	 */
+	public void setMsgCode(int msgCode) {
+		this.msgCode = msgCode;
 	}
 
 }

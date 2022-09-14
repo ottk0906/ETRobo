@@ -40,7 +40,7 @@ public class CsvRead {
 		final String ACT_NO_INSTRUCTION_SET = "7";	//命令セットの動作番号
 		final int SCENE_NO_ADD_VALUE = 1000;		//命令セットでのシーン番号にインクリメントする値
 
-		List<Double> actValue;		//動作のパラメータ
+		List<String> actValue;		//動作のパラメータ
 		List<Double> gdValue;		//遷移条件のパラメータ
 
 		//CSVデータを1行毎に処理して、シナリオデータを生成する
@@ -81,9 +81,9 @@ public class CsvRead {
 				//動作番号
 				tmpSnData.setActNo(Integer.parseInt(tmpData[ACT_NO_ROW]));
 				//動作のパラメータ
-				actValue = new ArrayList<Double>();
+				actValue = new ArrayList<String>();
 				for(int i = 1; i <= Integer.parseInt(tmpData[ACT_DETAIL_NUM_ROW]); i++ ) {
-					actValue.add(Double.parseDouble(tmpData[ACT_DETAIL_NUM_ROW + i]));
+					actValue.add(tmpData[ACT_DETAIL_NUM_ROW + i]);
 				}
 				tmpSnData.setActValue(actValue);
 				//遷移条件番号

@@ -7,7 +7,7 @@ import body.Body;
  * @author 尾角 武俊
  *
  */
-public class ActivityTarget extends Activity  {
+public class ActivityTarget extends Activity {
 
 	private float target;	//目標明度
 
@@ -16,7 +16,6 @@ public class ActivityTarget extends Activity  {
      * @param	target	目標明度(割合)	※0～1の値を設定
      */
     public ActivityTarget(float target) {
-    	//処理なし
     	super.name = "ActivityTarget";
     	this.target = target;
     }

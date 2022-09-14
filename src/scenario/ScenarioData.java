@@ -10,7 +10,7 @@ public class ScenarioData {
 	private int sceneNo;				//シーン番号
 	private int stateNo;				//競技状態番号
 	private int actNo;					//動作定義番号(Activity)
-	private List<Double> actValue;		//動作定義のパラメータ（Activityクラスを生成する際の引数値）
+	private List<String> actValue;		//動作定義のパラメータ（Activityクラスを生成する際の引数値）
 	private int gdNo;					//状態遷移条件番号
 	private int gdLogicalOperator;		//論理演算子（0:AND / 1:OR）
 	private List<Double> gdValue;		//遷移条件のパラメータ（Guardクラスを生成する際の引数値）
@@ -51,7 +51,7 @@ public class ScenarioData {
      * 動作定義のパラメータを設定する
      * @param 動作定義のパラメータ（Activityクラスを生成する際の引数値）
      */
-	public void setActValue(List<Double> actValue) {
+	public void setActValue(List<String> actValue) {
 		this.actValue = actValue;
 	}
 
@@ -109,7 +109,7 @@ public class ScenarioData {
      * 動作定義のパラメータを取得する
      * @return 動作定義のパラメータ（Activityクラスを生成する際の引数値）
      */
-	public List<Double> getActValue() {
+	public List<String> getActValue() {
 		return actValue;
 	}
 

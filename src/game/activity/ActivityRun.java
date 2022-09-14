@@ -37,7 +37,6 @@ public class ActivityRun extends Activity {
 		this.turn = turn;
 	}
 
-
 	/**
 	 * 継続動作を実行する
 	 * 目標速度と目標回転角速度を設定する

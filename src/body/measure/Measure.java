@@ -312,7 +312,7 @@ public class Measure {
 
 		float sat50BlackJudgeValueToHSL = 0.3f;
 		float sat50WhiteJudgeValueToHSL = 0.7f;
-		float sat100BlackJudgeValueToHSL = 0.2f;
+		float sat100BlackJudgeValueToHSL = 0.18f;
 		float sat100WhiteJudgeValueToHSL = 0.8f;
 
 		float limitSatWhiteHSV = 0.25f;

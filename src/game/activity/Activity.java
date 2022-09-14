@@ -48,7 +48,6 @@ public abstract class Activity {
 			//CSVファイルに出力する
 			csvWrite.writeCsvFile(fileName, outStr, true);
 		}
-
 	}
 
 	/**
