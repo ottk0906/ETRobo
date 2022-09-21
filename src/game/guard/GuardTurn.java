@@ -37,8 +37,18 @@ public class GuardTurn extends Guard {
 		if(startRadian == 0.0) {
 			//計測開始時の積算回転角度を設定する
 			this.startRadian = tmpRadian;
+/*
+		    //---> Add 2022/09/16 T.Okado Debug用
+			write(moveRadian,startRadian,tmpRadian,Math.abs(tmpRadian - startRadian));
+		    //<--- Add 2022/09/16 T.Okado
+*/
 			return false;
 		} else {
+/*
+		    //---> Add 2022/09/16 T.Okado Debug用
+			write(moveRadian,startRadian,tmpRadian,Math.abs(tmpRadian - startRadian));
+		    //<--- Add 2022/09/16 T.Okado
+*/
 			//「現在の積算回転角度」と「計測開始時の積算回転角度」の差分値が目標回転角度以上になった場合に回転停止と判定する
 			if (Math.abs(tmpRadian - startRadian) >= moveRadian) {
 				return true;
@@ -47,5 +57,29 @@ public class GuardTurn extends Guard {
 			}
 		}
 	}
+
+/*
+    //---> Add 2022/09/16 T.Okado Debug用
+	public void write(double moveRadian, double startRadian, double tmpRadian, double calcRadian) {
+        try {
+            StringBuilder sb = new StringBuilder();
+
+            sb.append(moveRadian).append(",");
+            sb.append(startRadian).append(",");
+            sb.append(tmpRadian).append(",");
+            sb.append(calcRadian).append("\r\n");
+
+        	File file = new File("GuardTurn.csv");
+            FileWriter fw = new FileWriter(file, true);	//アペンドモードで書き込む
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(sb.toString());
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    //<--- Add 2022/09/16 T.Okado
+*/
 
 }

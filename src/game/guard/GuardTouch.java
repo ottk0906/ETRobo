@@ -1,6 +1,7 @@
 package game.guard;
 
 import body.Body;
+import task.Beep;
 
 /**
  * タッチ遷移条件
@@ -20,6 +21,14 @@ public class GuardTouch extends Guard{
      */
     @Override
     public boolean judge(){
-        return Body.measure.isUpped();
+		//---> Modify 2022/09/21 T.Okado ログ出力停止
+        //return Body.measure.isUpped();
+    	if(Body.measure.isUpped()) {
+    		Beep.ring();
+    		return true;
+    	} else {
+    		return false;
+    	}
+        //<--- Modify 2022/09/21 T.Okado ログ出力停止
     }
 }

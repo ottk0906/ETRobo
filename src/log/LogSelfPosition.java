@@ -41,6 +41,9 @@ public class LogSelfPosition {
     	this.game = game;
     	this.selfPos = selfPos;
         logList = new ArrayList<LogData>();
+
+        //---> Del 2022/09/21 T.Okado ログ出力停止
+        /*
         //CSVファイル出力クラスのインスタンスを生成する
 		csvWrite = new CsvWrite();
 		//ファイル名を生成する
@@ -56,6 +59,8 @@ public class LogSelfPosition {
 		csvWrite.setHeaderString(headerString);
 		//ヘッダーを出力する
         write(true);
+        */
+        //<--- Del 2022/09/21 T.Okado ログ出力停止
     }
 
     /**
@@ -65,8 +70,10 @@ public class LogSelfPosition {
 		//「ベーシックコース走行状態」、「ゲーム攻略状態」の場合、自己位置推定ログ出力処理を実行する
         if (game.getStatus() instanceof StateRun | game.getStatus() instanceof StateConquest) {
 	    	//draw();
-	    	add();
-	    	write(false);
+            //---> Del 2022/09/21 T.Okado ログ出力停止
+	    	//add();
+	    	//write(false);
+            //<--- Del 2022/09/21 T.Okado ログ出力停止
         }
     }
 

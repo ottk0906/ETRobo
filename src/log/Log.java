@@ -39,7 +39,9 @@ public class Log {
         //CSVファイル出力クラスのインスタンスを生成する
 		csvWrite = new CsvWrite();
 		//ログアファイルを生成し、ヘッダー情報を書き込む
-        write(true);
+		//---> Del 2022/09/21 T.Okado ログ出力停止
+        //write(true);
+        //<--- Del 2022/09/21 T.Okado ログ出力停止
 	}
 
 	/**
@@ -47,8 +49,10 @@ public class Log {
 	 */
 	public void run() {
 		draw();
-		add();
-        write(false);
+        //---> Del 2022/09/21 T.Okado ログ出力停止
+		//add();
+        //write(false);
+        //<--- Del 2022/09/21 T.Okado ログ出力停止
 	}
 
 	/**
@@ -80,7 +84,6 @@ public class Log {
 	 * RGB情報を追加する
 	 */
 	private void addRGB() {
-		float[] rgb = Body.measure.getRGB();
 		LogData data = new LogRGBData(game.getCount(),
 				Body.measure.getRGB(),
 				Body.measure.getRGBOrigin(),
@@ -106,8 +109,8 @@ public class Log {
 	 */
 	private void addHSL() {
 		LogData data = new LogHSLData(game.getCount(),
-				Body.measure.getHueHSV(), Body.measure.getSaturationHSV(),
-				Body.measure.getValueHSV(), Body.measure.getColorHSL(),
+				Body.measure.getHueHSL(), Body.measure.getSaturationHSL(),
+				Body.measure.getLightnessHSL(), Body.measure.getColorHSL(),
 				Body.stopwatch.elapsed());
 		logHSLList.add(data);
 	}
@@ -116,7 +119,7 @@ public class Log {
 	 * LCDに描画する
 	 */
 	private void draw() {
-		//LCD.clear();
+		LCD.clear();
 		LCD.drawString(game.toString(), 0, 0);
 		/*
 		LCD.drawString("White", 0, 1);
@@ -171,7 +174,7 @@ public class Log {
 			csvWrite.setHeaderString(headerString);
 		}
 		//ファイル名を生成する
-		String fileName = "RGBLog" + Body.logFileSuffix + ".csv";
+		String fileName = "logRGB" + Body.logFileSuffix + ".csv";
 		//CSVファイルに出力する
 		csvWrite.writeCsvFile(fileName, logRGBList, true, init);
 		logRGBList.clear();

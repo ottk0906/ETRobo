@@ -7,7 +7,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import body.Body;
-import fileIO.CsvWrite;
 import game.Game;
 import lejos.hardware.lcd.LCD;
 import log.Log;
@@ -54,9 +53,11 @@ public class TaskManager {
         scheduler = Executors.newScheduledThreadPool(3);
         countDownLatch = new CountDownLatch(1);
 
+        //---> Del 2022/09/21 T.Okado ログ出力停止
 		//ログファイルのサフィックス値を取得する
-		CsvWrite csvWrite = new CsvWrite();
-		Body.logFileSuffix = csvWrite.getLogFileSuffix();
+		//CsvWrite csvWrite = new CsvWrite();
+		//Body.logFileSuffix = csvWrite.getLogFileSuffix();
+        //<--- Del 2022/09/21 T.Okado ログ出力停止
 
         // タスク生成
         game = new Game();
@@ -67,6 +68,7 @@ public class TaskManager {
 
 		// 自己位置推定インスタンスにgemeクラスのインスタンスを設定する
         Body.selfPos.setGameInstance(game);
+
 		// 自己位置推定ログのインスタンス生成
 		logSelfPos = new LogSelfPosition(game, Body.selfPos);
 

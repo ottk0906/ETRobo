@@ -1,10 +1,5 @@
 package game.activity;
 
-import body.Body;
-import fileIO.CsvWrite;
-import task.Beep;
-
-
 /**
  * 動作クラス
  * @author 後藤 聡文
@@ -21,8 +16,9 @@ public abstract class Activity {
 	 * UMLステートマシン図のentryアクション
 	 */
 	public void entryAction() {
+		//---> Del 2022/09/21 T.Okado ログ出力停止
+		/*
 		Beep.ring();
-
 		//CSVファイル出力クラスのインスタンスを生成する
 		CsvWrite csvWrite = new CsvWrite();
 		//ログに出力する文言をセットする
@@ -36,7 +32,7 @@ public abstract class Activity {
 				fileName = "log" + Body.logFileSuffix + ".csv";
 				break;
 			case 1:
-				fileName = "RGBLog" + Body.logFileSuffix + ".csv";
+				fileName = "logRGB" + Body.logFileSuffix + ".csv";
 				break;
 			case 2:
 				fileName = "logHSV" + Body.logFileSuffix + ".csv";
@@ -48,6 +44,8 @@ public abstract class Activity {
 			//CSVファイルに出力する
 			csvWrite.writeFile(fileName, outStr, true);
 		}
+		*/
+        //<--- Del 2022/09/21 T.Okado ログ出力停止
 	}
 
 	/**

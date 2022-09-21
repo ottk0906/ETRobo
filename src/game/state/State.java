@@ -2,12 +2,9 @@ package game.state;
 
 import java.util.ArrayList;
 
-import body.Body;
-import fileIO.CsvWrite;
 import game.Game;
 import game.activity.Activity;
 import game.guard.Guard;
-import task.Beep;
 
 /**
  * 競技状態クラス
@@ -64,6 +61,8 @@ public abstract class State {
 
             index++;
 
+            //---> Del 2022/09/21 T.Okado ログ出力停止
+            /*
             //CSVファイル出力クラスのインスタンスを生成する
     		CsvWrite csvWrite = new CsvWrite();
     		//ログに出力する文言をセットする
@@ -79,7 +78,7 @@ public abstract class State {
     				fileName = "log" + Body.logFileSuffix + ".csv";
     				break;
     			case 1:
-    				fileName = "RGBLog" + Body.logFileSuffix + ".csv";
+    				fileName = "logRGB" + Body.logFileSuffix + ".csv";
     				break;
     			case 2:
     				fileName = "logHSV" + Body.logFileSuffix + ".csv";
@@ -91,11 +90,15 @@ public abstract class State {
     			//CSVファイルに出力する
     			csvWrite.writeFile(fileName, outStr, true);
     		}
+    		*/
+            //<--- Del 2022/09/21 T.Okado ログ出力停止
 
     		if(index >= guardList.size()){
                 changeState(game);
             } else {
-                Beep.ring();
+                //---> Del 2022/09/21 T.Okado ログ出力停止
+                //Beep.ring();
+                //<--- Del 2022/09/21 T.Okado ログ出力停止
             }
         } else {
             activityList.get(index).doActivity();
